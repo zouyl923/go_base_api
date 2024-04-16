@@ -1,0 +1,43 @@
+syntax = "v1"
+
+type (
+	AdminPermission {
+		Id        int64   `json:"id"`
+		MenuId    int32   `json:"menu_id"`
+		Uri       string  `json:"uri"`
+		Menu      []int32 `json:"menu"`
+		CreatedAt string  `json:"created_at"`
+	}
+	AdminPermissionUpdateReq {
+		Id     int64  `json:"id"`
+		MenuId int32  `json:"menu_id" validate:"required" label:"请选择关联菜单"`
+		Uri    string `json:"uri" validate:"required" label:"请填写接口权限"`
+	}
+	AdminPermissionDeleteReq {
+		Id  int64   `json:"id"` //单删
+		Ids []int64 `json:"ids"` //批量删除
+	}
+	AdminPermissionInfoReq {
+		Id int `form:"id"`
+	}
+)
+
+@server (
+	prefix:     /admin
+	group:      v1/set/permission
+	middleware: CorsMiddleware,AuthMiddleware
+)
+service admin-api {
+	@handler treeHandler
+	get /v1/set/permission/tree_list returns ([]AdminPermission)
+
+	@handler infoHandler
+	get /v1/set/permission/info (AdminPermissionInfoReq) returns (AdminPermission)
+
+	@handler updateHandler
+	post /v1/set/permission/update (AdminPermissionUpdateReq)
+
+	@handler deleteHandler
+	post /v1/set/permission/delete (AdminPermissionDeleteReq)
+}
+

@@ -1,0 +1,106 @@
+syntax = "v1"
+
+type (
+	ArticleCategroy {
+		Id       int64  `json:"id"`
+		ParentId int32  `json:"parent_id"`
+		Name     string `json:"name"`
+		Children []ArticleCategroy
+	}
+	ArticleCategroyInfoReq {
+		Id int64 `form:"id"`
+	}
+	ArticleCategroyUpdateReq {
+		Id       int64  `json:"id"`
+		ParentId int32  `json:"parent_id"`
+		Name     string `json:"name"`
+		Weight   int32  `json:"weight"`
+	}
+	ArticleCategroyDeleteReq {
+		Id  int64   `json:"id"` //单删
+		Ids []int64 `json:"ids"` //批量删除
+	}
+)
+
+type (
+	Article {
+		Uuid       string        `json:"uuid"`
+		CategoryId int32         `json:"categroy_id"`
+		Title      int64         `json:"title"`
+		Cover      string        `json:"cover"`
+		UserUuid   string        `json:"user_uuid"`
+		LikeNum    int64         `json:"like_num"`
+		ViewNum    int64         `json:"view_num"`
+		Status     int32         `json:"status"`
+		DetailInfo ArticleDetail `json:"detail_info"`
+	}
+	ArticleSearchReq {
+		Page     int    `form:"page"`
+		PageSize int    `form:"page_size"`
+		Keyword  string `form:"keyword"`
+	}
+	ArticlePageList {
+		Total    int64     `json:"total"`
+		Data     []Article `json:"data"`
+		Page     int       `json:"page"`
+		PageSize int       `json:"page_size"`
+	}
+	ArticleDetail {
+		ArticleUuid string `json:"article_uuid"`
+		Content     string `json:"content"`
+		Reason      string `json:"reason"`
+	}
+	ArticleInfoReq {
+		Uuid int64 `form:"uuid"`
+	}
+	ArticleUpdateReq {
+		Id         int64  `json:"id"`
+		CategoryId int32  `json:"categroy_id"`
+		Title      int64  `json:"title"`
+		Cover      string `json:"cover"`
+		Content    string `json:"content"`
+	}
+	ArticleDeleteReq {
+		Uuid  int64    `json:"uuid"` //单删
+		Uuids []string `json:"uuids"` //批量删除
+	}
+)
+
+@server (
+	prefix:     /admin
+	group:      v1/article/category
+	middleware: CorsMiddleware,AuthMiddleware
+)
+service admin-api {
+	@handler treeHandler
+	get /v1/article/category/tree_list returns ([]ArticleCategroy)
+
+	@handler infoHandler
+	get /v1/article/category/info (ArticleCategroyInfoReq) returns (ArticleCategroy)
+
+	@handler updateHandler
+	post /v1/article/category/update (ArticleCategroyUpdateReq)
+
+	@handler deleteHandler
+	post /v1/article/category/delete (ArticleCategroyDeleteReq)
+}
+
+@server (
+	prefix:     /admin
+	group:      v1/article/article
+	middleware: CorsMiddleware,AuthMiddleware
+)
+service admin-api {
+	@handler pageHandler
+	get /v1/article/article/page_list (ArticleSearchReq) returns (ArticlePageList)
+
+	@handler infoHandler
+	get /v1/article/article/info (ArticleInfoReq) returns (Article)
+
+	@handler updateHandler
+	post /v1/article/article/update (ArticleUpdateReq)
+
+	@handler deleteHandler
+	post /v1/article/article/delete (ArticleDeleteReq)
+}
+

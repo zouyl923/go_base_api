@@ -1,0 +1,51 @@
+syntax = "v1"
+
+import "./permission.api"
+
+type (
+	Menu {
+		Id         int64           `json:"id"`
+		ParentId   int64           `json:"parent_id"`
+		Name       string          `json:"name"`
+		Uri        string          `json:"uri"`
+		Icon       string          `json:"icon"`
+		Weight     int32           `json:"weight"`
+		Children   []Menu          `json:"children"`
+		Permission AdminPermission `json:"permission"`
+	}
+	MenuUpdateReq {
+		Id       int64  `json:"id"`
+		ParentId int32  `json:"parent_id"`
+		Name     string `json:"name" validate:"required" label:"菜单名称"`
+		Uri      string `json:"uri"`
+		Icon     string `json:"icon"`
+		Weight   int32  `json:"weight"`
+	}
+	MenuDeleteReq {
+		Id  int64   `json:"id"` //单删
+		Ids []int64 `json:"ids"` //批量删除
+	}
+	MenuInfoReq {
+		Id int `form:"id"`
+	}
+)
+
+@server (
+	prefix:     /admin
+	group:      v1/set/menu
+	middleware: CorsMiddleware,AuthMiddleware
+)
+service admin-api {
+	@handler treeHandler
+	get /v1/set/menu/tree_list returns ([]Menu)
+
+	@handler infoHandler
+	get /v1/set/menu/info (MenuInfoReq) returns (Menu)
+
+	@handler updateHandler
+	post /v1/set/menu/update (MenuUpdateReq)
+
+	@handler deleteHandler
+	post /v1/set/menu/delete (MenuDeleteReq)
+}
+

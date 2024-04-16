@@ -1,0 +1,55 @@
+syntax = "v1"
+
+type (
+	AdminRole {
+		Id         int     `json:"id"`
+		Name       string  `json:"name"`
+		Permission []int32 `json:"permission"`
+	}
+	AdminRoleSearchReq {
+		Page     int    `form:"page"`
+		PageSize int    `form:"page_size"`
+		Keyword  string `form:"keyword"`
+	}
+	AdminRolePageList {
+		Total    int64       `json:"total"`
+		Data     []AdminRole `json:"data"`
+		Page     int         `json:"page"`
+		PageSize int         `json:"page_size"`
+	}
+	AdminRoleUpdateReq {
+		Id         int64   `json:"id"`
+		Name       string  `json:"name" validate:"required" label:"角色名称"`
+		Permission []int32 `json:"permission" validate:"required" label:"拥有权限"`
+	}
+	AdminRoleDeleteReq {
+		Id  int64   `json:"id"` //单删
+		Ids []int64 `json:"ids"` //批量删除
+	}
+	AdminRoleInfoReq {
+		Id int `form:"id"`
+	}
+)
+
+@server (
+	prefix:     /admin
+	group:      v1/set/role
+	middleware: CorsMiddleware,AuthMiddleware
+)
+service admin-api {
+	@handler listHandler
+	get /v1/set/role/page_list (AdminRoleSearchReq) returns (AdminRolePageList)
+
+	@handler allListHandler
+	get /v1/set/role/all_list returns ([]AdminRole)
+
+	@handler infoHandler
+	get /v1/set/role/info (AdminRoleInfoReq) returns (AdminRole)
+
+	@handler updateHandler
+	post /v1/set/role/update (AdminRoleUpdateReq)
+
+	@handler deleteHandler
+	post /v1/set/role/delete (AdminRoleDeleteReq)
+}
+
