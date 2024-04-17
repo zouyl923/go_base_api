@@ -31,7 +31,6 @@ type (
 )
 
 @server (
-	prefix:     /admin
 	group:      v1/set/menu
 	middleware: CorsMiddleware,AuthMiddleware
 )

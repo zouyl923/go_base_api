@@ -32,7 +32,6 @@ type (
 )
 
 @server (
-	prefix:     /admin
 	group:      v1/set/role
 	middleware: CorsMiddleware,AuthMiddleware
 )

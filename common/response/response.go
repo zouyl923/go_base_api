@@ -28,13 +28,16 @@ func Success(w http.ResponseWriter, data interface{}) {
 func Error(w http.ResponseWriter, err error) {
 	causeErr := errors.Cause(err)
 	e, ok := causeErr.(*errx.CodeError)
-	code := -1
-	if ok {
-		code = e.Code
-	}
+
 	r := &Response{}
-	r.Code = e.Code
-	r.Message = errx.GetCnMessage(code)
+	if ok {
+		r.Code = e.Code
+		r.Message = e.Message
+	} else {
+		code := errx.UnKnowError
+		r.Code = code
+		r.Message = errx.GetCnMessage(code)
+	}
 	httpx.OkJson(w, r)
 }
 

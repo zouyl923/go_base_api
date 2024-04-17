@@ -6,7 +6,8 @@ import (
 
 	v1articlearticle "blog/app/admin/api/internal/handler/v1/article/article"
 	v1articlecategory "blog/app/admin/api/internal/handler/v1/article/category"
-	v1login "blog/app/admin/api/internal/handler/v1/login"
+	v1loginaccount "blog/app/admin/api/internal/handler/v1/login/account"
+	v1loginadmin "blog/app/admin/api/internal/handler/v1/login/admin"
 	v1setadmin "blog/app/admin/api/internal/handler/v1/set/admin"
 	v1setmenu "blog/app/admin/api/internal/handler/v1/set/menu"
 	v1setpermission "blog/app/admin/api/internal/handler/v1/set/permission"
@@ -43,7 +44,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin"),
 	)
 
 	server.AddRoutes(
@@ -72,7 +72,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin"),
 	)
 
 	server.AddRoutes(
@@ -82,16 +81,15 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					Method:  http.MethodGet,
 					Path:    "/v1/login/env",
-					Handler: v1login.EnvHandler(serverCtx),
+					Handler: v1loginaccount.EnvHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodPost,
 					Path:    "/v1/login/login",
-					Handler: v1login.LoginHandler(serverCtx),
+					Handler: v1loginaccount.LoginHandler(serverCtx),
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin"),
 	)
 
 	server.AddRoutes(
@@ -101,16 +99,15 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					Method:  http.MethodGet,
 					Path:    "/v1/admin/info",
-					Handler: v1login.InfoHandler(serverCtx),
+					Handler: v1loginadmin.InfoHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodPost,
 					Path:    "/v1/login/login_out",
-					Handler: v1login.LoginOutHandler(serverCtx),
+					Handler: v1loginadmin.LoginOutHandler(serverCtx),
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin"),
 	)
 
 	server.AddRoutes(
@@ -144,7 +141,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin"),
 	)
 
 	server.AddRoutes(
@@ -173,7 +169,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin"),
 	)
 
 	server.AddRoutes(
@@ -202,7 +197,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin"),
 	)
 
 	server.AddRoutes(
@@ -236,6 +230,5 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin"),
 	)
 }

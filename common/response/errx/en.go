@@ -1,8 +1,8 @@
 package errx
 
 var en = map[int]string{
-	Success: "operate ok！",
-	Error:   "operate failed！",
+	Success: "ok！",
+	Error:   "failed！",
 }
 
 func GetEnMessage(code int) string {

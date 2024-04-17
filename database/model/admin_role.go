@@ -13,7 +13,7 @@ const TableNameAdminRole = "admin_role"
 // AdminRole 管理员-角色表
 type AdminRole struct {
 	ID        int64     `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	Name      string    `gorm:"column:name;not null;comment:角色名称" json:"name"`           // 角色名称
+	Name      string    `gorm:"column:name;type:varchar(32);not null;comment:角色名称" json:"name"`           // 角色名称
 	IsHid     int32     `gorm:"column:is_hid;not null;comment:是否禁用：1是 0否" json:"is_hid"` // 是否禁用：1是 0否
 	IsDel     int32     `gorm:"column:is_del;not null;comment:是否删除：1是 0否" json:"is_del"` // 是否删除：1是 0否
 	CreatedAt time.Time `gorm:"column:created_at" json:"created_at"`

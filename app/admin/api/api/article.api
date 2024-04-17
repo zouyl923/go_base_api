@@ -67,7 +67,6 @@ type (
 )
 
 @server (
-	prefix:     /admin
 	group:      v1/article/category
 	middleware: CorsMiddleware,AuthMiddleware
 )
@@ -86,7 +85,6 @@ service admin-api {
 }
 
 @server (
-	prefix:     /admin
 	group:      v1/article/article
 	middleware: CorsMiddleware,AuthMiddleware
 )

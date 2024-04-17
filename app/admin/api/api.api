@@ -1,7 +1,6 @@
 syntax = "v1"
 
-// import "./permission.api"
-import "./api/api.api"
+import "./api/admin.api"
 
 type (
 	EnvRes {
@@ -24,8 +23,8 @@ type (
 )
 
 @server (
-	prefix:     /admin
-	group:      v1/login
+	//账号登录
+	group:      v1/login/account
 	middleware: CorsMiddleware
 )
 service admin-api {
@@ -38,8 +37,7 @@ service admin-api {
 }
 
 @server (
-	prefix:     /admin
-	group:      v1/login
+	group:      v1/login/admin
 	middleware: CorsMiddleware,AuthMiddleware
 )
 service admin-api {

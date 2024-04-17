@@ -3,14 +3,24 @@ syntax = "proto3";
 package rpc;
 option go_package="./rpc";
 
-message Request {
-  string ping = 1;
+message RegisterReq {
+  string nickname = 1;
+  int64 phone = 2;
+  string password = 3;
 }
 
-message Response {
-  string pong = 1;
+message RegisterRes {
+  string token = 1;
+  string refresh_token = 2;
+  User user = 3;
 }
+message User {
+  int64 id  = 1;
+  string nickname  =2;
+  int64  phone  =3;
+}
+
 
 service Rpc {
-  rpc Ping(Request) returns(Response);
+  rpc Register(RegisterReq) returns(RegisterRes);
 }

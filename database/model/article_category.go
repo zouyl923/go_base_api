@@ -1,15 +1,22 @@
 package model
 
-const TableNameArticleDetail = "article_detail"
+import "time"
 
-// ArticleDetail 文章详情表
-type ArticleDetail struct {
-	ArticleUuid string `gorm:"column:article_uuid;primaryKey;" json:"article_uuid"`
-	Content     string `gorm:"column:content;not null;type:longtext;comment:文章内容" json:"content"` // 文章内容
-	Reason      string `gorm:"column:reason;comment:审核不通过原因" json:"reason"`                       // 审核不通过原因
+const TableNameArticleCategory = "article_category"
+
+// ArticleCategory 文章分类表
+type ArticleCategory struct {
+	Id        int64     `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
+	ParentID  int32     `gorm:"column:parent_id;not null;comment:父级ID" json:"parent_id"`      // 父级ID
+	Name      string    `gorm:"column:name;type:varchar(32);not null;comment:名称" json:"name"` // 名称
+	IsHid     int32     `gorm:"column:is_hid;not null;comment:是否禁用：1是 0否" json:"is_hid"`      // 是否禁用：1是 0否
+	IsDel     int32     `gorm:"column:is_del;not null;comment:是否删除：1是 0否" json:"is_del"`
+	CreatedAt time.Time `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt time.Time `gorm:"column:updated_at" json:"updated_at"`
+	DeletedAt int32     `gorm:"column:deleted_at;not null;comment:删除时间" json:"deleted_at"` // 删除时间
 }
 
 // TableName Admin table name
-func (*ArticleDetail) TableName() string {
-	return TableNameArticleDetail
+func (*ArticleCategory) TableName() string {
+	return TableNameArticleCategory
 }

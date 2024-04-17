@@ -26,7 +26,10 @@ type Config struct {
 
 func NewDb() *gorm.DB {
 	dsn := GetDsn()
-	DB, Err = gorm.Open(mysql.Open(dsn))
+	DB, Err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+		//禁用生成外键关联
+		DisableForeignKeyConstraintWhenMigrating: true,
+	})
 	if Err != nil {
 		panic(Err)
 	}
