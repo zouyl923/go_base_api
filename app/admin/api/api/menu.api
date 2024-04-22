@@ -1,7 +1,5 @@
 syntax = "v1"
 
-import "./permission.api"
-
 type (
 	Menu {
 		Id         int64           `json:"id"`

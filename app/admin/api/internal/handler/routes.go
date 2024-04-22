@@ -79,11 +79,13 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.CorsMiddleware},
 			[]rest.Route{
 				{
+					// 获取环境信息
 					Method:  http.MethodGet,
 					Path:    "/v1/login/env",
 					Handler: v1loginaccount.EnvHandler(serverCtx),
 				},
 				{
+					// 登录
 					Method:  http.MethodPost,
 					Path:    "/v1/login/login",
 					Handler: v1loginaccount.LoginHandler(serverCtx),
@@ -97,11 +99,13 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.CorsMiddleware, serverCtx.AuthMiddleware},
 			[]rest.Route{
 				{
+					// 管理员信息
 					Method:  http.MethodGet,
 					Path:    "/v1/admin/info",
 					Handler: v1loginadmin.InfoHandler(serverCtx),
 				},
 				{
+					// 退出登录
 					Method:  http.MethodPost,
 					Path:    "/v1/login/login_out",
 					Handler: v1loginadmin.LoginOutHandler(serverCtx),

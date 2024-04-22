@@ -1,9 +1,4 @@
 syntax = "v1"
-
-import "./menu.api"
-import "./role.api"
-import "./article.api"
-
 type (
 	AdminInfo {
 		Id       int64     `json:"id"`
