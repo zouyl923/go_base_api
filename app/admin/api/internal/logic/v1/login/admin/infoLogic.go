@@ -1,15 +1,15 @@
 package admin
 
 import (
+	"blog/app/admin/api/internal/svc"
+	"blog/app/admin/api/internal/types"
 	"blog/common/helper"
 	"blog/common/response/errx"
 	"blog/database/model"
 	"context"
+	"fmt"
 	"github.com/pkg/errors"
 	"net/http"
-
-	"blog/app/admin/api/internal/svc"
-	"blog/app/admin/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,7 +29,8 @@ func NewInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *InfoLogic {
 }
 
 func (l *InfoLogic) Info(r *http.Request) (resp *types.AdminInfo, err error) {
-	adminId := r.Header.Get("AdminId")
+	adminId := r.Header.Get("admin_id")
+	fmt.Println(adminId)
 	admin := &model.Admin{}
 	err = l.svcCtx.DB.WithContext(l.ctx).
 		Preload("RoleInfo").
@@ -40,6 +41,6 @@ func (l *InfoLogic) Info(r *http.Request) (resp *types.AdminInfo, err error) {
 	}
 
 	adminInfo := new(types.AdminInfo)
-	helper.ChangeToStruct(admin, &adminInfo)
+	helper.ExchangeStruct(admin, &adminInfo)
 	return adminInfo, nil
 }

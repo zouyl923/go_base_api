@@ -26,3 +26,13 @@ func (s *RpcServer) Register(ctx context.Context, in *rpc.RegisterReq) (*rpc.Reg
 	l := logic.NewRegisterLogic(ctx, s.svcCtx)
 	return l.Register(in)
 }
+
+func (s *RpcServer) Login(ctx context.Context, in *rpc.LoginReq) (*rpc.LoginRes, error) {
+	l := logic.NewLoginLogic(ctx, s.svcCtx)
+	return l.Login(in)
+}
+
+func (s *RpcServer) Info(ctx context.Context, in *rpc.InfoReq) (*rpc.User, error) {
+	l := logic.NewInfoLogic(ctx, s.svcCtx)
+	return l.Info(in)
+}

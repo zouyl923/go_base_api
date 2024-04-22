@@ -3,8 +3,10 @@ package svc
 import (
 	"blog/app/admin/api/internal/config"
 	"blog/app/admin/api/internal/middleware"
+	"blog/app/verify/rpc/rpcClient"
 	"fmt"
 	"github.com/zeromicro/go-zero/core/stores/redis"
+	"github.com/zeromicro/go-zero/zrpc"
 
 	"github.com/zeromicro/go-zero/rest"
 	"gorm.io/driver/mysql"
@@ -17,15 +19,18 @@ type ServiceContext struct {
 	AuthMiddleware rest.Middleware
 	DB             *gorm.DB
 	Cache          *redis.Redis
+	VerifyRpc      rpcClient.Rpc
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
+	verifyRpc := rpcClient.NewRpc(zrpc.MustNewClient(c.VerifyRpc))
 	return &ServiceContext{
 		Config:         c,
 		CorsMiddleware: middleware.NewCorsMiddleware().Handle,
-		AuthMiddleware: middleware.NewAuthMiddleware().Handle,
+		AuthMiddleware: middleware.NewAuthMiddleware(c, verifyRpc).Handle,
 		DB:             GetOrm(c),
 		Cache:          GetRedis(c),
+		VerifyRpc:      verifyRpc,
 	}
 }
 

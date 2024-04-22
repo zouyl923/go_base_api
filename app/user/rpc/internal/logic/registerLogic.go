@@ -1,10 +1,12 @@
 package logic
 
 import (
+	rpc2 "blog/app/verify/rpc/pb/rpc"
 	"blog/common/helper"
 	"blog/database/model"
 	"context"
 	"github.com/pkg/errors"
+	"strconv"
 
 	"blog/app/user/rpc/internal/svc"
 	"blog/app/user/rpc/pb/rpc"
@@ -41,11 +43,23 @@ func (l *RegisterLogic) Register(in *rpc.RegisterReq) (*rpc.RegisterRes, error) 
 	if err != nil {
 		return nil, err
 	}
+
+	userId := strconv.FormatInt(info.ID, 10)
+	verify, err := l.svcCtx.VerifyRpc.GenToken(l.ctx, &rpc2.GenTokenReq{
+		Server: "user",
+		Key:    userId,
+	})
+	if err != nil {
+		if err != nil {
+			return nil, err
+		}
+	}
 	var cInfo rpc.User
-	helper.ChangeToStruct(info, &cInfo)
+	helper.ExchangeStruct(info, &cInfo)
+
 	resp := rpc.RegisterRes{}
-	resp.Token = ""
+	resp.Token = verify.Token
 	resp.User = &cInfo
-	resp.RefreshToken = ""
+	resp.RefreshToken = verify.RefreshToken
 	return &resp, nil
 }

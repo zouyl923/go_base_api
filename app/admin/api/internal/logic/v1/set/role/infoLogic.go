@@ -40,7 +40,7 @@ func (l *InfoLogic) Info(req *types.AdminRoleInfoReq) (resp *types.AdminRole, er
 		per = append(per, v.MenuID)
 	}
 	adminRoleInfo := new(types.AdminRole)
-	helper.ChangeToStruct(adminRole, &adminRoleInfo)
+	helper.ExchangeStruct(adminRole, &adminRoleInfo)
 	adminRoleInfo.Permission = per
 	return adminRoleInfo, nil
 }

@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package verify;
+option go_package = "./rpc";
+
+message GenTokenReq{
+  //服务模块
+  string server = 1;
+  //唯一标识
+  string key = 2;
+}
+
+message GenTokenRes{
+  //服务模块
+  string server = 1;
+  //唯一标识
+  string key = 2;
+  //token
+  string token = 3;
+  //refresh_token
+  string refresh_token = 4;
+}
+message RemoveTokenReq {
+  //服务模块
+  string server = 1;
+  //唯一标识
+  string key = 2;
+}
+message RemoveTokenRes{
+
+}
+
+message AuthReq {
+  //服务模块
+  string server = 1;
+  //token
+  string token = 2;
+}
+
+message AuthRes {
+  //服务模块
+  string server = 1;
+  //唯一标识
+  string key = 2;
+  //token
+  string token = 3;
+  //refresh_token
+  string refresh_token = 4;
+  //token
+  JwtMap jwt_map = 5;
+}
+
+message  JwtMap{
+  //唯一标识
+  string key = 1;
+  //生成时间
+  int64  time = 2;
+  //有效期
+  int64 expire_time = 3;
+  //随机串
+  string nonce = 4;
+}
+
+
+service Rpc {
+  rpc GenToken(GenTokenReq) returns(GenTokenRes);
+  rpc RemoveToken(RemoveTokenReq) returns(RemoveTokenRes);
+  rpc Auth(AuthReq) returns(AuthRes);
+}

@@ -21,12 +21,12 @@ type (
 		Phone    int64  `json:"phone"`
 	}
 	UserInfoReq {
-		Id int64 `json:"id"`
+		Id int64 `form:"id"`
 	}
 )
 
 @server (
-	group:      v1/user
+	group:      v1/login
 	middleware: CorsMiddleware
 )
 service user-api {
@@ -35,8 +35,19 @@ service user-api {
 
 	@handler loginHandler
 	post /v1/login (LoginReq) returns (LoginRes)
+}
 
+@server (
+	group:      v1/user
+	middleware: CorsMiddleware,AuthMiddleware
+)
+service user-api {
+	@doc "我的信息"
 	@handler infoHandler
-	post /v1/info (UserInfoReq) returns (User)
+	get /v1/info returns (User)
+
+	@doc "个人主页"
+	@handler mainHandler
+	get /v1/main (UserInfoReq) returns (User)
 }
 

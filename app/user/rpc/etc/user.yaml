@@ -1,5 +1,6 @@
 Name: user.rpc
-ListenOn: 0.0.0.0:6041
+ListenOn: 0.0.0.0:6031
+
 Etcd:
   Hosts:
     - 127.0.0.1:2379
@@ -29,3 +30,10 @@ Redis:
   Type: "node"
   Password: "123456"
   Tls: false
+
+
+VerifyRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: verify.rpc

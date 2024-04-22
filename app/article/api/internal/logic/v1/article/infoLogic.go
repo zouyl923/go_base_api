@@ -38,6 +38,6 @@ func (l *InfoLogic) Info(req *types.ArticleInfoReq) (resp *types.Article, err er
 		return nil, errors.Wrap(errx.NewCodeError(errx.Error), "没有此信息")
 	}
 	cInfo := new(types.Article)
-	helper.ChangeToStruct(info, cInfo)
+	helper.ExchangeStruct(info, cInfo)
 	return cInfo, nil
 }

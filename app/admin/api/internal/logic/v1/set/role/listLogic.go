@@ -42,7 +42,7 @@ func (l *ListLogic) List(req *types.AdminRoleSearchReq) (resp *types.AdminRolePa
 		Count(&total)
 	//数据格式转换
 	var data []types.AdminRole
-	helper.ChangeToStruct(roles, &data)
+	helper.ExchangeStruct(roles, &data)
 	resp = new(types.AdminRolePageList)
 	resp.Page = page
 	resp.PageSize = pageSize

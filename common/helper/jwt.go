@@ -6,8 +6,6 @@ import (
 	"time"
 )
 
-var Secret string = "r12SdYHkeOqHNCK7rq888trqYpsWlzCy"
-
 type MapClaims struct {
 	Key        string `json:"key"`         // 唯一值
 	Time       int64  `json:"time"`        //当前时间
@@ -18,10 +16,10 @@ type MapClaims struct {
 
 /**
  * key 唯一索引值
- * secret 自定义密钥
- * tt有效期
+ * jwtSecret 自定义密钥
+ * ttl有效期
 **/
-func GenToken(key string, ttl time.Duration) (string, error) {
+func GenToken(key string, jwtSecret string, ttl time.Duration) (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(ttl * time.Hour)
 
@@ -31,7 +29,7 @@ func GenToken(key string, ttl time.Duration) (string, error) {
 		ExpireTime: expireTime.Unix(),
 		Nonce:      Md5(nowTime.String() + key + expireTime.String()),
 		RegisteredClaims: jwt.RegisteredClaims{
-			Issuer:    "auth",                                          //签发者
+			Issuer:    "verify",                                        //签发者
 			Subject:   "any",                                           //签发给谁，例如某个人
 			Audience:  jwt.ClaimStrings{"any"},                         //签发给谁，例如某个服务
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),   //过期时间
@@ -41,14 +39,14 @@ func GenToken(key string, ttl time.Duration) (string, error) {
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString([]byte(Secret))
+	tokenString, err := token.SignedString([]byte(jwtSecret))
 	return tokenString, err
 }
 
-func ParseToken(tokenString string) (*MapClaims, error) {
+func ParseToken(tokenString string, jwtSecret string) (*MapClaims, error) {
 	claims := new(MapClaims)
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(Secret), nil
+		return []byte(jwtSecret), nil
 	})
 	if err != nil {
 		return nil, err

@@ -32,6 +32,6 @@ func (l *AllListLogic) AllList() (resp []types.Category, err error) {
 		Where("is_hid", 0).
 		Find(&list)
 	var cList []types.Category
-	helper.ChangeToStruct(list, &cList)
+	helper.ExchangeStruct(list, &cList)
 	return cList, nil
 }

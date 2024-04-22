@@ -1,4 +1,4 @@
-package user
+package login
 
 import (
 	"blog/app/user/rpc/rpcClient"
@@ -37,6 +37,6 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.LoginRes, 
 		return nil, errors.Wrap(errx.NewMessageError(err.Error()), "")
 	}
 	res := new(types.LoginRes)
-	helper.ChangeToStruct(info, res)
+	helper.ExchangeStruct(info, res)
 	return res, nil
 }

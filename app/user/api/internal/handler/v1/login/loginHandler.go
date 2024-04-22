@@ -1,7 +1,7 @@
-package user
+package login
 
 import (
-	"blog/app/user/api/internal/logic/v1/user"
+	"blog/app/user/api/internal/logic/v1/login"
 	"blog/app/user/api/internal/svc"
 	"blog/app/user/api/internal/types"
 	"blog/common/response"
@@ -14,9 +14,9 @@ import (
 	"reflect"
 )
 
-func RegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func LoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.RegisterReq
+		var req types.LoginReq
 		//解析参数
 		httpx.Parse(r, &req)
 		//验证器
@@ -33,8 +33,8 @@ func RegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			response.ParamError(w, first.Translate(trans))
 			return
 		}
-		l := user.NewRegisterLogic(r.Context(), svcCtx)
-		resp, err := l.Register(&req)
+		l := login.NewLoginLogic(r.Context(), svcCtx)
+		resp, err := l.Login(&req)
 		if err != nil {
 			response.Error(w, err)
 		} else {

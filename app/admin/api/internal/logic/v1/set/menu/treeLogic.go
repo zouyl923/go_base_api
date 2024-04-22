@@ -31,7 +31,7 @@ func (l *TreeLogic) Tree() (resp []types.Menu, err error) {
 		Where("is_hid=?", 0).
 		Order("weight desc").Find(&list)
 	var tree []types.Menu
-	helper.ChangeToStruct(list, &tree)
+	helper.ExchangeStruct(list, &tree)
 	tree = GetTree(tree, 0)
 	return tree, nil
 }

@@ -1,6 +1,8 @@
-package user
+package login
 
 import (
+	"blog/app/user/rpc/pb/rpc"
+	"blog/common/helper"
 	"context"
 
 	"blog/app/user/api/internal/svc"
@@ -24,7 +26,18 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginRes, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+	loginRes, err := l.svcCtx.UserRpc.Login(l.ctx, &rpc.LoginReq{
+		Phone:    req.Phone,
+		Password: req.Password,
+	})
+	if err != nil {
+		return nil, err
+	}
+	cUser := types.User{}
+	helper.ExchangeStruct(loginRes.User, &cUser)
+	resp = new(types.LoginRes)
+	resp.User = cUser
+	resp.Token = loginRes.Token
+	resp.RefreshToken = loginRes.RefreshToken
+	return resp, nil
 }

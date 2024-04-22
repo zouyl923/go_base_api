@@ -1,12 +1,13 @@
 package account
 
 import (
+	"blog/app/verify/rpc/pb/rpc"
 	"blog/common/helper"
 	"blog/common/response/errx"
 	"blog/database/model"
 	"context"
-	"fmt"
 	"github.com/pkg/errors"
+	"strconv"
 
 	"blog/app/admin/api/internal/svc"
 	"blog/app/admin/api/internal/types"
@@ -35,7 +36,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginRes, err error
 		Where("name = ?", req.Username).
 		Preload("RoleInfo").
 		First(&adminInfo).Error
-	if err != nil {
+	if err != nil || adminInfo.ID < 1 {
 		return nil, errors.Wrap(errx.NewCodeError(errx.AdminNotFound), "账户不存在！")
 	}
 
@@ -43,18 +44,20 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginRes, err error
 	if check != true {
 		return nil, errors.Wrap(errx.NewCodeError(errx.AdminNotFound), "密码错误！")
 	}
-	key := fmt.Sprintf("%d", adminInfo.ID)
-	token, err := helper.GenToken(key, 2*60*60)
+
+	adminId := strconv.FormatInt(adminInfo.ID, 10)
+	tokenRes, err := l.svcCtx.VerifyRpc.GenToken(l.ctx, &rpc.GenTokenReq{
+		Server: "admin",
+		Key:    adminId,
+	})
 	if err != nil {
-		return nil, errors.Wrap(errx.NewCodeError(errx.AdminNotFound), "token生成失败！")
+		return nil, err
 	}
 
-	cacheKey := "admin_token:" + key
-	l.svcCtx.Cache.Setex(cacheKey, token, 30*24*60*60)
-
 	admin := types.AdminInfo{}
-	helper.ChangeToStruct(adminInfo, &admin)
+	helper.ExchangeStruct(adminInfo, &admin)
 	resp.AdminInfo = admin
-	resp.Token = token
+	resp.Token = tokenRes.Token
+	resp.RefreshToken = tokenRes.RefreshToken
 	return resp, nil
 }

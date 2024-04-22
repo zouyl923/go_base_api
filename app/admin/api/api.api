@@ -3,48 +3,51 @@ syntax = "v1"
 import "./api/admin.api"
 
 type (
-	EnvRes {
-		Env        string `json:"env"`
-		Uid        string `json:"uid"`
-		TimeZone   string `json:"timezone"`
-		Timestamps int    `json:"timestamps"`
-		Agent      string `json:"agent"`
-		Ip         string `json:"ip"`
-	}
-	LoginReq {
-		Username string `json:"username" validate:"required" label:"账号"`
-		Password string `json:"password" validate:"required" label:"密码"`
-	}
-	LoginRes {
-		Token        string    `json:"token"`
-		RefreshToken string    `json:"refresh_token"`
-		AdminInfo    AdminInfo `json:"admin_info"`
-	}
+    EnvRes {
+        Env string `json:"env"`
+        Uid string `json:"uid"`
+        TimeZone string `json:"timezone"`
+        Timestamps int `json:"timestamps"`
+        Agent string `json:"agent"`
+        Ip string `json:"ip"`
+    }
+    LoginReq {
+        Username string `json:"username" validate:"required" label:"账号"`
+        Password string `json:"password" validate:"required" label:"密码"`
+    }
+    LoginRes {
+        Token string `json:"token"`
+        RefreshToken string `json:"refresh_token"`
+        AdminInfo AdminInfo `json:"admin_info"`
+    }
 )
 
-@server (
-	//账号登录
-	group:      v1/login/account
-	middleware: CorsMiddleware
+@server(
+    //账号登录
+    group:      v1/login/account
+    middleware: CorsMiddleware
 )
 service admin-api {
-	@doc "获取环境信息"
-	@handler envHandler
-	get /v1/login/env returns (EnvRes)
+    @doc "获取环境信息"
+    @handler envHandler
+    get /v1/login/env returns (EnvRes)
 
-	@handler loginHandler
-	post /v1/login/login (LoginReq) returns (LoginRes)
+    @doc "登录"
+    @handler loginHandler
+    post /v1/login/login (LoginReq) returns (LoginRes)
 }
 
-@server (
-	group:      v1/login/admin
-	middleware: CorsMiddleware,AuthMiddleware
+@server(
+    group:      v1/login/admin
+    middleware: CorsMiddleware,AuthMiddleware
 )
 service admin-api {
-	@handler loginOutHandler
-	post /v1/login/login_out
+    @doc "退出登录"
+    @handler loginOutHandler
+    post /v1/login/login_out
 
-	@handler infoHandler
-	get /v1/admin/info returns (AdminInfo)
+    @doc "管理员信息"
+    @handler infoHandler
+    get /v1/admin/info returns (AdminInfo)
 }
 

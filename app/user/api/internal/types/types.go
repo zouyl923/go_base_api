@@ -25,5 +25,5 @@ type User struct {
 }
 
 type UserInfoReq struct {
-	Id int64 `json:"id"`
+	Id int64 `form:"id"`
 }

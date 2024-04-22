@@ -46,7 +46,7 @@ func (l *PageListLogic) PageList(req *types.ArticleSearchReq) (resp *types.Artic
 		Count(&total)
 	//数据格式转换
 	var cList []types.Article
-	helper.ChangeToStruct(list, &cList)
+	helper.ExchangeStruct(list, &cList)
 	resp = new(types.ArticlePageList)
 	resp.Page = page
 	resp.PageSize = pageSize

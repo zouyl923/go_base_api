@@ -37,7 +37,7 @@ func (l *InfoLogic) Info(req *types.AdminPermissionInfoReq) (resp *types.AdminPe
 	menu := model.AdminMenu{}
 	l.svcCtx.DB.WithContext(l.ctx).Where("id=?", info.MenuID).First(&menu)
 	cInfo := new(types.AdminPermission)
-	helper.ChangeToStruct(info, cInfo)
+	helper.ExchangeStruct(info, cInfo)
 	cInfo.Menu = append(cInfo.Menu, menu.ParentID, int32(menu.ID))
 	return cInfo, nil
 }

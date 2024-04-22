@@ -34,6 +34,6 @@ func (l *InfoLogic) Info(req *types.MenuInfoReq) (resp *types.Menu, err error) {
 	}
 
 	cInfo := new(types.Menu)
-	helper.ChangeToStruct(info, &cInfo)
+	helper.ExchangeStruct(info, &cInfo)
 	return cInfo, nil
 }

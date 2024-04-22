@@ -31,6 +31,6 @@ func (l *AllListLogic) AllList() (resp []types.AdminRole, err error) {
 		Where("is_hid = ?", 0).
 		Find(&list)
 	var cList []types.AdminRole
-	helper.ChangeToStruct(list, &cList)
+	helper.ExchangeStruct(list, &cList)
 	return cList, nil
 }

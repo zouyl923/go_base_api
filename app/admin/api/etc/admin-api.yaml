@@ -26,3 +26,9 @@ Redis:
   Type: "node"
   Password: "123456"
   Tls: false
+
+VerifyRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: verify.rpc

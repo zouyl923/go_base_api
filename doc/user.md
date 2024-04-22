@@ -62,4 +62,5 @@ bitnami/etcd:latest
     - 编辑 api/internal/svc/serviceContext.go
       - ![](./images/4.png)
 - 使用rpc
-  - 
+  - ![](./images/5.png)
+

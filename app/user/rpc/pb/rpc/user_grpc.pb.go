@@ -19,7 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Rpc_Register_FullMethodName = "/rpc.Rpc/Register"
+	Rpc_Register_FullMethodName = "/user.Rpc/Register"
+	Rpc_Login_FullMethodName    = "/user.Rpc/Login"
+	Rpc_Info_FullMethodName     = "/user.Rpc/Info"
 )
 
 // RpcClient is the client API for Rpc service.
@@ -27,6 +29,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RpcClient interface {
 	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterRes, error)
+	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginRes, error)
+	Info(ctx context.Context, in *InfoReq, opts ...grpc.CallOption) (*User, error)
 }
 
 type rpcClient struct {
@@ -46,11 +50,31 @@ func (c *rpcClient) Register(ctx context.Context, in *RegisterReq, opts ...grpc.
 	return out, nil
 }
 
+func (c *rpcClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginRes, error) {
+	out := new(LoginRes)
+	err := c.cc.Invoke(ctx, Rpc_Login_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rpcClient) Info(ctx context.Context, in *InfoReq, opts ...grpc.CallOption) (*User, error) {
+	out := new(User)
+	err := c.cc.Invoke(ctx, Rpc_Info_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RpcServer is the server API for Rpc service.
 // All implementations must embed UnimplementedRpcServer
 // for forward compatibility
 type RpcServer interface {
 	Register(context.Context, *RegisterReq) (*RegisterRes, error)
+	Login(context.Context, *LoginReq) (*LoginRes, error)
+	Info(context.Context, *InfoReq) (*User, error)
 	mustEmbedUnimplementedRpcServer()
 }
 
@@ -60,6 +84,12 @@ type UnimplementedRpcServer struct {
 
 func (UnimplementedRpcServer) Register(context.Context, *RegisterReq) (*RegisterRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+}
+func (UnimplementedRpcServer) Login(context.Context, *LoginReq) (*LoginRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedRpcServer) Info(context.Context, *InfoReq) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Info not implemented")
 }
 func (UnimplementedRpcServer) mustEmbedUnimplementedRpcServer() {}
 
@@ -92,16 +122,60 @@ func _Rpc_Register_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Rpc_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RpcServer).Login(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Rpc_Login_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RpcServer).Login(ctx, req.(*LoginReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Rpc_Info_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RpcServer).Info(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Rpc_Info_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RpcServer).Info(ctx, req.(*InfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Rpc_ServiceDesc is the grpc.ServiceDesc for Rpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Rpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "rpc.Rpc",
+	ServiceName: "user.Rpc",
 	HandlerType: (*RpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Register",
 			Handler:    _Rpc_Register_Handler,
+		},
+		{
+			MethodName: "Login",
+			Handler:    _Rpc_Login_Handler,
+		},
+		{
+			MethodName: "Info",
+			Handler:    _Rpc_Info_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

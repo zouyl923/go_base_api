@@ -1,7 +1,11 @@
 package user
 
 import (
+	"blog/app/user/rpc/pb/rpc"
+	"blog/common/helper"
 	"context"
+	"net/http"
+	"strconv"
 
 	"blog/app/user/api/internal/svc"
 	"blog/app/user/api/internal/types"
@@ -23,8 +27,16 @@ func NewInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *InfoLogic {
 	}
 }
 
-func (l *InfoLogic) Info(req *types.UserInfoReq) (resp *types.User, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *InfoLogic) Info(r *http.Request) (resp *types.User, err error) {
+	userId := r.Header.Get("user_id")
+	uId, err := strconv.ParseInt(userId, 10, 64)
+	info, err := l.svcCtx.UserRpc.Info(l.ctx, &rpc.InfoReq{
+		UserId: uId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	cInfo := types.User{}
+	helper.ExchangeStruct(info, &cInfo)
+	return &cInfo, nil
 }

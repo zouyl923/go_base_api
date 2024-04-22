@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/zeromicro/go-zero/rest"
+	"github.com/zeromicro/go-zero/zrpc"
 	"time"
 )
 
@@ -25,4 +26,5 @@ type Config struct {
 		// PingTimeout is the timeout for ping redis.
 		PingTimeout time.Duration `json:",default=1s"`
 	}
+	VerifyRpc zrpc.RpcClientConf
 }

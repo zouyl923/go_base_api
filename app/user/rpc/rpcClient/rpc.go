@@ -13,12 +13,17 @@ import (
 )
 
 type (
+	InfoReq     = rpc.InfoReq
+	LoginReq    = rpc.LoginReq
+	LoginRes    = rpc.LoginRes
 	RegisterReq = rpc.RegisterReq
 	RegisterRes = rpc.RegisterRes
 	User        = rpc.User
 
 	Rpc interface {
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterRes, error)
+		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginRes, error)
+		Info(ctx context.Context, in *InfoReq, opts ...grpc.CallOption) (*User, error)
 	}
 
 	defaultRpc struct {
@@ -35,4 +40,14 @@ func NewRpc(cli zrpc.Client) Rpc {
 func (m *defaultRpc) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterRes, error) {
 	client := rpc.NewRpcClient(m.cli.Conn())
 	return client.Register(ctx, in, opts...)
+}
+
+func (m *defaultRpc) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginRes, error) {
+	client := rpc.NewRpcClient(m.cli.Conn())
+	return client.Login(ctx, in, opts...)
+}
+
+func (m *defaultRpc) Info(ctx context.Context, in *InfoReq, opts ...grpc.CallOption) (*User, error) {
+	client := rpc.NewRpcClient(m.cli.Conn())
+	return client.Info(ctx, in, opts...)
 }

@@ -31,6 +31,6 @@ func (l *AllListLogic) AllList(req *types.AdminSearchReq) (resp []types.AdminInf
 		Find(&list)
 	//数据格式转换
 	var cList []types.AdminInfo
-	helper.ChangeToStruct(list, &cList)
+	helper.ExchangeStruct(list, &cList)
 	return cList, nil
 }

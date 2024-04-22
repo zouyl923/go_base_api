@@ -36,6 +36,6 @@ func (l *InfoLogic) Info(req *types.AdminInfoReq) (resp *types.AdminInfo, err er
 		return nil, errors.Wrap(errx.NewCodeError(errx.Error), "信息不存在")
 	}
 	cInfo := new(types.AdminInfo)
-	helper.ChangeToStruct(info, &cInfo)
+	helper.ExchangeStruct(info, &cInfo)
 	return cInfo, nil
 }

@@ -1,6 +1,6 @@
 Name: user-api
 Host: 0.0.0.0
-Port: 6040
+Port: 6030
 Mode: dev
 
 Log:
@@ -17,3 +17,9 @@ UserRpc:
     Hosts:
       - 127.0.0.1:2379
     Key: user.rpc
+
+VerifyRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: verify.rpc

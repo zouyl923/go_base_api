@@ -42,7 +42,7 @@ func (l *PageListLogic) PageList(req *types.AdminSearchReq) (resp *types.AdminPa
 		Count(&total)
 	//数据格式转换
 	var cList []types.AdminInfo
-	helper.ChangeToStruct(list, &cList)
+	helper.ExchangeStruct(list, &cList)
 	resp = new(types.AdminPageList)
 	resp.Page = page
 	resp.PageSize = pageSize

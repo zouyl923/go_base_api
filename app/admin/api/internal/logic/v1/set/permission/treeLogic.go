@@ -32,7 +32,7 @@ func (l *TreeLogic) Tree() (resp []types.Menu, err error) {
 		Preload("Permission").
 		Order("weight desc").Find(&list)
 	var cList []types.Menu
-	helper.ChangeToStruct(list, &cList)
+	helper.ExchangeStruct(list, &cList)
 	cList = GetTree(cList, 0)
 	return cList, nil
 
