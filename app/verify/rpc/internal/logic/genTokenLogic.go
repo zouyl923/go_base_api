@@ -40,7 +40,7 @@ func (l *GenTokenLogic) GenToken(in *rpc.GenTokenReq) (*rpc.GenTokenRes, error) 
 	str := in.Key + time.Now().String() + l.svcCtx.Config.JwtSecret
 	refreshToken := helper.Md5(str)
 	//缓存token
-	l.svcCtx.Cache.Setex(refreshTokenKey, token, 2*60*60)
+	l.svcCtx.Cache.Setex(refreshTokenKey, refreshToken, 2*60*60)
 	return &rpc.GenTokenRes{
 		Server:       in.Server,
 		Key:          in.Key,
