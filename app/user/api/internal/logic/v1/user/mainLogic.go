@@ -3,6 +3,7 @@ package user
 import (
 	"blog/app/user/rpc/pb/rpc"
 	"blog/common/helper"
+	"blog/common/response/errx"
 	"context"
 
 	"blog/app/user/api/internal/svc"
@@ -30,7 +31,7 @@ func (l *MainLogic) Main(req *types.UserInfoReq) (resp *types.User, err error) {
 		UserId: req.Id,
 	})
 	if err != nil {
-		return nil, err
+		return nil, errx.NewMessageError(err.Error())
 	}
 	cInfo := types.User{}
 	helper.ExchangeStruct(info, &cInfo)

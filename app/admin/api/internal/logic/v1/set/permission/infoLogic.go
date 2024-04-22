@@ -7,8 +7,6 @@ import (
 	"blog/common/response/errx"
 	"blog/database/model"
 	"context"
-	"github.com/pkg/errors"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -32,7 +30,7 @@ func (l *InfoLogic) Info(req *types.AdminPermissionInfoReq) (resp *types.AdminPe
 		Where("id =?", req.Id).
 		First(&info).Error
 	if err != nil {
-		return nil, errors.Wrap(errx.NewCodeError(errx.Error), "信息不存在")
+		return nil, errx.NewCodeError(errx.NotFundError)
 	}
 	menu := model.AdminMenu{}
 	l.svcCtx.DB.WithContext(l.ctx).Where("id=?", info.MenuID).First(&menu)

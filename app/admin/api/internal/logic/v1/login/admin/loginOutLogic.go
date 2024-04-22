@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"blog/app/verify/rpc/pb/rpc"
 	"context"
 	"net/http"
 
@@ -23,8 +24,10 @@ func NewLoginOutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginOut
 }
 
 func (l *LoginOutLogic) LoginOut(r *http.Request) error {
-	adminId := r.Header.Get("AdminId")
-	cacheKey := "admin_token:" + adminId
-	l.svcCtx.Cache.Del(cacheKey)
-	return nil
+	adminId := r.Header.Get("admin_id")
+	_, err := l.svcCtx.VerifyRpc.RemoveToken(l.ctx, &rpc.RemoveTokenReq{
+		Server: "admin",
+		Key:    adminId,
+	})
+	return err
 }

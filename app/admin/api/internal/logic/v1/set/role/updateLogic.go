@@ -6,7 +6,6 @@ import (
 	"blog/common/response/errx"
 	"blog/database/model"
 	"context"
-	"github.com/pkg/errors"
 	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -36,19 +35,19 @@ func (l *UpdateLogic) Update(req *types.AdminRoleUpdateReq) error {
 	err := tx.Save(&role).Error
 	if err != nil {
 		tx.Rollback()
-		return errors.Wrap(errx.NewCodeError(errx.Error), "操作失败！")
+		return errx.NewCodeError(errx.UpdateError)
 	}
 	var permission model.AdminRolePermission
 	var rolePermission []model.AdminRolePermission
 	for _, v := range req.Permission {
 		permission.RoleID = int32(role.ID)
-		permission.MenuID = int32(v)
+		permission.MenuID = v
 		rolePermission = append(rolePermission, permission)
 	}
 	err = tx.Where("role_id=?", role.ID).Delete(&rolePermission).Create(&rolePermission).Error
 	if err != nil {
 		tx.Rollback()
-		return errors.Wrap(errx.NewCodeError(errx.Error), "操作失败！")
+		return errx.NewCodeError(errx.UpdateError)
 	}
 	tx.Commit()
 	return nil

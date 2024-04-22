@@ -1,14 +1,12 @@
 package login
 
 import (
+	"blog/app/user/api/internal/svc"
+	"blog/app/user/api/internal/types"
 	"blog/app/user/rpc/rpcClient"
 	"blog/common/helper"
 	"blog/common/response/errx"
 	"context"
-	"github.com/pkg/errors"
-
-	"blog/app/user/api/internal/svc"
-	"blog/app/user/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -34,7 +32,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.LoginRes, 
 		Password: req.Password,
 	})
 	if err != nil {
-		return nil, errors.Wrap(errx.NewMessageError(err.Error()), "")
+		return nil, errx.NewMessageError(err.Error())
 	}
 	res := new(types.LoginRes)
 	helper.ExchangeStruct(info, res)

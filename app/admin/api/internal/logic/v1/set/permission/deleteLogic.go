@@ -6,8 +6,6 @@ import (
 	"blog/common/response/errx"
 	"blog/database/model"
 	"context"
-	"github.com/pkg/errors"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -38,7 +36,7 @@ func (l *DeleteLogic) Delete(req *types.AdminPermissionDeleteReq) error {
 		Where("id in (?)", ids).
 		Delete(&info).Error
 	if err != nil {
-		return errors.Wrap(errx.NewCodeError(errx.Error), "操作失败！")
+		return errx.NewCodeError(errx.DeleteError)
 	}
 	return nil
 }

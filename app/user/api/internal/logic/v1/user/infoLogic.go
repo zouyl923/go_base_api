@@ -3,6 +3,7 @@ package user
 import (
 	"blog/app/user/rpc/pb/rpc"
 	"blog/common/helper"
+	"blog/common/response/errx"
 	"context"
 	"net/http"
 	"strconv"
@@ -34,7 +35,7 @@ func (l *InfoLogic) Info(r *http.Request) (resp *types.User, err error) {
 		UserId: uId,
 	})
 	if err != nil {
-		return nil, err
+		return nil, errx.NewMessageError(err.Error())
 	}
 	cInfo := types.User{}
 	helper.ExchangeStruct(info, &cInfo)

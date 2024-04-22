@@ -3,6 +3,7 @@ package login
 import (
 	"blog/app/user/rpc/pb/rpc"
 	"blog/common/helper"
+	"blog/common/response/errx"
 	"context"
 
 	"blog/app/user/api/internal/svc"
@@ -31,7 +32,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginRes, err error
 		Password: req.Password,
 	})
 	if err != nil {
-		return nil, err
+		return nil, errx.NewMessageError(err.Error())
 	}
 	cUser := types.User{}
 	helper.ExchangeStruct(loginRes.User, &cUser)

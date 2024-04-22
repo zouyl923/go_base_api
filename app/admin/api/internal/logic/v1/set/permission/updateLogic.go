@@ -6,7 +6,6 @@ import (
 	"blog/common/response/errx"
 	"blog/database/model"
 	"context"
-	"github.com/pkg/errors"
 	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -35,7 +34,7 @@ func (l *UpdateLogic) Update(req *types.AdminPermissionUpdateReq) error {
 	}
 	err := l.svcCtx.DB.WithContext(l.ctx).Debug().Where("menu_id =? ", req.MenuId).Save(&data).Error
 	if err != nil {
-		return errors.Wrap(errx.NewCodeError(errx.Error), "操作失败！")
+		return errx.NewCodeError(errx.UpdateError)
 	}
 	return nil
 }

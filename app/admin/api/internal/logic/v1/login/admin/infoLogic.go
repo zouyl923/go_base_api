@@ -8,7 +8,6 @@ import (
 	"blog/database/model"
 	"context"
 	"fmt"
-	"github.com/pkg/errors"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -37,7 +36,7 @@ func (l *InfoLogic) Info(r *http.Request) (resp *types.AdminInfo, err error) {
 		Where("id =?", adminId).
 		First(admin).Error
 	if err != nil {
-		return nil, errors.Wrap(errx.NewCodeError(errx.Error), "账号不存在")
+		return nil, errx.NewCodeError(errx.AdminNotFound)
 	}
 
 	adminInfo := new(types.AdminInfo)

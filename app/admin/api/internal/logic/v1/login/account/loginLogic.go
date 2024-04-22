@@ -42,7 +42,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginRes, err error
 
 	check := helper.PasswordVerify(req.Password, adminInfo.Password)
 	if check != true {
-		return nil, errors.Wrap(errx.NewCodeError(errx.AdminNotFound), "密码错误！")
+		return nil, errx.NewCodeError(errx.AdminNotFound)
 	}
 
 	adminId := strconv.FormatInt(adminInfo.ID, 10)
