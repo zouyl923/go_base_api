@@ -2,6 +2,8 @@ package common
 
 import (
 	"blog/app/article/rpc/pb/rpc"
+	"blog/common/helper"
+	"blog/common/response/errx"
 	"context"
 
 	"blog/app/article/api/internal/svc"
@@ -25,12 +27,15 @@ func NewPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PageList
 }
 
 func (l *PageListLogic) PageList(req *types.SearchReq) (resp *types.PageList, err error) {
-	l.svcCtx.ArticleRpc.PageList(l.ctx, &rpc.SearchReq{
+	list, err := l.svcCtx.ArticleCommonRpc.PageList(l.ctx, &rpc.SearchReq{
 		Page:       req.Page,
-		PageSize:   req.PageSize,
 		Keyword:    req.Keyword,
 		CategoryId: req.CategoryId,
 	})
-
-	return
+	if err != nil {
+		return nil, errx.NewMessageError(err.Error())
+	}
+	var cList types.PageList
+	helper.ExchangeStruct(list, &cList)
+	return &cList, nil
 }

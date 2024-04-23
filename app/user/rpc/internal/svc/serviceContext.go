@@ -2,7 +2,7 @@ package svc
 
 import (
 	"blog/app/user/rpc/internal/config"
-	"blog/app/verify/rpc/rpcClient"
+	"blog/app/verify/rpc/client/verifyservice"
 	"blog/common/helper"
 	"fmt"
 	"github.com/zeromicro/go-zero/core/stores/redis"
@@ -16,15 +16,16 @@ type ServiceContext struct {
 	DB     *gorm.DB
 	Cache  *redis.Redis
 
-	VerifyRpc rpcClient.Rpc
+	VerifyRpc verifyservice.VerifyService
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
+	verifyRpc := verifyservice.NewVerifyService(zrpc.MustNewClient(c.VerifyRpc))
 	return &ServiceContext{
 		Config:    c,
 		DB:        GetOrm(c),
 		Cache:     GetRedis(c),
-		VerifyRpc: rpcClient.NewRpc(zrpc.MustNewClient(c.VerifyRpc)),
+		VerifyRpc: verifyRpc,
 	}
 }
 

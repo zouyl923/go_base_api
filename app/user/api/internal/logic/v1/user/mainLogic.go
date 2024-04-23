@@ -1,7 +1,7 @@
 package user
 
 import (
-	"blog/app/user/rpc/pb/rpc"
+	"blog/app/user/rpc/client/userservice"
 	"blog/common/helper"
 	"blog/common/response/errx"
 	"context"
@@ -27,7 +27,7 @@ func NewMainLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MainLogic {
 }
 
 func (l *MainLogic) Main(req *types.UserInfoReq) (resp *types.User, err error) {
-	info, err := l.svcCtx.UserRpc.Info(l.ctx, &rpc.InfoReq{
+	info, err := l.svcCtx.UserRpc.Info(l.ctx, &userservice.InfoReq{
 		UserId: req.Id,
 	})
 	if err != nil {

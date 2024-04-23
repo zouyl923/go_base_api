@@ -26,7 +26,7 @@ func NewAllListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AllListLo
 }
 
 func (l *AllListLogic) AllList() (resp []types.Category, err error) {
-	list, err := l.svcCtx.ArticleRpc.CategoryList(l.ctx, &rpc.EmptyReq{})
+	list, err := l.svcCtx.ArticleCommonRpc.CategoryList(l.ctx, &rpc.EmptyReq{})
 	var cList []types.Category
 	helper.ExchangeStruct(list.List, &cList)
 	return cList, nil

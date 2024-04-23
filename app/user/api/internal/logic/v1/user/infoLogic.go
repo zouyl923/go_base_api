@@ -1,7 +1,7 @@
 package user
 
 import (
-	"blog/app/user/rpc/pb/rpc"
+	"blog/app/user/rpc/client/userservice"
 	"blog/common/helper"
 	"blog/common/response/errx"
 	"context"
@@ -30,7 +30,7 @@ func NewInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *InfoLogic {
 func (l *InfoLogic) Info() (resp *types.User, err error) {
 	userId := l.ctx.Value("userId").(string)
 	uId, err := strconv.ParseInt(userId, 10, 64)
-	info, err := l.svcCtx.UserRpc.Info(l.ctx, &rpc.InfoReq{
+	info, err := l.svcCtx.UserRpc.Info(l.ctx, &userservice.InfoReq{
 		UserId: uId,
 	})
 	if err != nil {

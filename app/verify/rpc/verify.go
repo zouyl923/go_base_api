@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"blog/app/verify/rpc/internal/config"
-	"blog/app/verify/rpc/internal/server"
+	verifyserviceServer "blog/app/verify/rpc/internal/server/verifyservice"
 	"blog/app/verify/rpc/internal/svc"
 	"blog/app/verify/rpc/pb/rpc"
 
@@ -26,7 +26,7 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		rpc.RegisterRpcServer(grpcServer, server.NewRpcServer(ctx))
+		rpc.RegisterVerifyServiceServer(grpcServer, verifyserviceServer.NewVerifyServiceServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)

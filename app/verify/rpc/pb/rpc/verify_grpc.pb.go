@@ -19,163 +19,163 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Rpc_GenToken_FullMethodName    = "/verify.Rpc/GenToken"
-	Rpc_RemoveToken_FullMethodName = "/verify.Rpc/RemoveToken"
-	Rpc_Auth_FullMethodName        = "/verify.Rpc/Auth"
+	VerifyService_GenToken_FullMethodName    = "/verify.VerifyService/GenToken"
+	VerifyService_RemoveToken_FullMethodName = "/verify.VerifyService/RemoveToken"
+	VerifyService_Auth_FullMethodName        = "/verify.VerifyService/Auth"
 )
 
-// RpcClient is the client API for Rpc service.
+// VerifyServiceClient is the client API for VerifyService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type RpcClient interface {
+type VerifyServiceClient interface {
 	GenToken(ctx context.Context, in *GenTokenReq, opts ...grpc.CallOption) (*GenTokenRes, error)
 	RemoveToken(ctx context.Context, in *RemoveTokenReq, opts ...grpc.CallOption) (*RemoveTokenRes, error)
 	Auth(ctx context.Context, in *AuthReq, opts ...grpc.CallOption) (*AuthRes, error)
 }
 
-type rpcClient struct {
+type verifyServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewRpcClient(cc grpc.ClientConnInterface) RpcClient {
-	return &rpcClient{cc}
+func NewVerifyServiceClient(cc grpc.ClientConnInterface) VerifyServiceClient {
+	return &verifyServiceClient{cc}
 }
 
-func (c *rpcClient) GenToken(ctx context.Context, in *GenTokenReq, opts ...grpc.CallOption) (*GenTokenRes, error) {
+func (c *verifyServiceClient) GenToken(ctx context.Context, in *GenTokenReq, opts ...grpc.CallOption) (*GenTokenRes, error) {
 	out := new(GenTokenRes)
-	err := c.cc.Invoke(ctx, Rpc_GenToken_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, VerifyService_GenToken_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rpcClient) RemoveToken(ctx context.Context, in *RemoveTokenReq, opts ...grpc.CallOption) (*RemoveTokenRes, error) {
+func (c *verifyServiceClient) RemoveToken(ctx context.Context, in *RemoveTokenReq, opts ...grpc.CallOption) (*RemoveTokenRes, error) {
 	out := new(RemoveTokenRes)
-	err := c.cc.Invoke(ctx, Rpc_RemoveToken_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, VerifyService_RemoveToken_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rpcClient) Auth(ctx context.Context, in *AuthReq, opts ...grpc.CallOption) (*AuthRes, error) {
+func (c *verifyServiceClient) Auth(ctx context.Context, in *AuthReq, opts ...grpc.CallOption) (*AuthRes, error) {
 	out := new(AuthRes)
-	err := c.cc.Invoke(ctx, Rpc_Auth_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, VerifyService_Auth_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// RpcServer is the server API for Rpc service.
-// All implementations must embed UnimplementedRpcServer
+// VerifyServiceServer is the server API for VerifyService service.
+// All implementations must embed UnimplementedVerifyServiceServer
 // for forward compatibility
-type RpcServer interface {
+type VerifyServiceServer interface {
 	GenToken(context.Context, *GenTokenReq) (*GenTokenRes, error)
 	RemoveToken(context.Context, *RemoveTokenReq) (*RemoveTokenRes, error)
 	Auth(context.Context, *AuthReq) (*AuthRes, error)
-	mustEmbedUnimplementedRpcServer()
+	mustEmbedUnimplementedVerifyServiceServer()
 }
 
-// UnimplementedRpcServer must be embedded to have forward compatible implementations.
-type UnimplementedRpcServer struct {
+// UnimplementedVerifyServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedVerifyServiceServer struct {
 }
 
-func (UnimplementedRpcServer) GenToken(context.Context, *GenTokenReq) (*GenTokenRes, error) {
+func (UnimplementedVerifyServiceServer) GenToken(context.Context, *GenTokenReq) (*GenTokenRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GenToken not implemented")
 }
-func (UnimplementedRpcServer) RemoveToken(context.Context, *RemoveTokenReq) (*RemoveTokenRes, error) {
+func (UnimplementedVerifyServiceServer) RemoveToken(context.Context, *RemoveTokenReq) (*RemoveTokenRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveToken not implemented")
 }
-func (UnimplementedRpcServer) Auth(context.Context, *AuthReq) (*AuthRes, error) {
+func (UnimplementedVerifyServiceServer) Auth(context.Context, *AuthReq) (*AuthRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Auth not implemented")
 }
-func (UnimplementedRpcServer) mustEmbedUnimplementedRpcServer() {}
+func (UnimplementedVerifyServiceServer) mustEmbedUnimplementedVerifyServiceServer() {}
 
-// UnsafeRpcServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to RpcServer will
+// UnsafeVerifyServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to VerifyServiceServer will
 // result in compilation errors.
-type UnsafeRpcServer interface {
-	mustEmbedUnimplementedRpcServer()
+type UnsafeVerifyServiceServer interface {
+	mustEmbedUnimplementedVerifyServiceServer()
 }
 
-func RegisterRpcServer(s grpc.ServiceRegistrar, srv RpcServer) {
-	s.RegisterService(&Rpc_ServiceDesc, srv)
+func RegisterVerifyServiceServer(s grpc.ServiceRegistrar, srv VerifyServiceServer) {
+	s.RegisterService(&VerifyService_ServiceDesc, srv)
 }
 
-func _Rpc_GenToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _VerifyService_GenToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GenTokenReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RpcServer).GenToken(ctx, in)
+		return srv.(VerifyServiceServer).GenToken(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Rpc_GenToken_FullMethodName,
+		FullMethod: VerifyService_GenToken_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RpcServer).GenToken(ctx, req.(*GenTokenReq))
+		return srv.(VerifyServiceServer).GenToken(ctx, req.(*GenTokenReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Rpc_RemoveToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _VerifyService_RemoveToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RemoveTokenReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RpcServer).RemoveToken(ctx, in)
+		return srv.(VerifyServiceServer).RemoveToken(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Rpc_RemoveToken_FullMethodName,
+		FullMethod: VerifyService_RemoveToken_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RpcServer).RemoveToken(ctx, req.(*RemoveTokenReq))
+		return srv.(VerifyServiceServer).RemoveToken(ctx, req.(*RemoveTokenReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Rpc_Auth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _VerifyService_Auth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AuthReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RpcServer).Auth(ctx, in)
+		return srv.(VerifyServiceServer).Auth(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Rpc_Auth_FullMethodName,
+		FullMethod: VerifyService_Auth_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RpcServer).Auth(ctx, req.(*AuthReq))
+		return srv.(VerifyServiceServer).Auth(ctx, req.(*AuthReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Rpc_ServiceDesc is the grpc.ServiceDesc for Rpc service.
+// VerifyService_ServiceDesc is the grpc.ServiceDesc for VerifyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Rpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "verify.Rpc",
-	HandlerType: (*RpcServer)(nil),
+var VerifyService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "verify.VerifyService",
+	HandlerType: (*VerifyServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GenToken",
-			Handler:    _Rpc_GenToken_Handler,
+			Handler:    _VerifyService_GenToken_Handler,
 		},
 		{
 			MethodName: "RemoveToken",
-			Handler:    _Rpc_RemoveToken_Handler,
+			Handler:    _VerifyService_RemoveToken_Handler,
 		},
 		{
 			MethodName: "Auth",
-			Handler:    _Rpc_Auth_Handler,
+			Handler:    _VerifyService_Auth_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

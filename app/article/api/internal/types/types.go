@@ -74,4 +74,5 @@ type UploadRes struct {
 type User struct {
 	Id       int64  `json:"id"`
 	Nickname string `json:"nickname"`
+	Avatar   string `json:"avatar"`
 }

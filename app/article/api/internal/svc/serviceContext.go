@@ -3,8 +3,10 @@ package svc
 import (
 	"blog/app/article/api/internal/config"
 	"blog/app/article/api/internal/middleware"
-	articleRpcClient "blog/app/article/rpc/rpcClient"
-	verifyRpcClient "blog/app/verify/rpc/rpcClient"
+	"blog/app/article/rpc/client/adminservice"
+	"blog/app/article/rpc/client/commonservice"
+	"blog/app/article/rpc/client/userservice"
+	"blog/app/verify/rpc/client/verifyservice"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 )
@@ -14,16 +16,23 @@ type ServiceContext struct {
 	CorsMiddleware      rest.Middleware
 	UserAuthMiddleware  rest.Middleware
 	AdminAuthMiddleware rest.Middleware
-	ArticleRpc          articleRpcClient.Rpc
+
+	ArticleCommonRpc commonservice.CommonService
+	ArticleUserRpc   userservice.UserService
+	ArticleAdminRpc  adminservice.AdminService
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	articleRpc := articleRpcClient.NewRpc(zrpc.MustNewClient(c.ArticleRpc))
-	verifyRpc := verifyRpcClient.NewRpc(zrpc.MustNewClient(c.VerifyRpc))
+	articleCommonRpc := commonservice.NewCommonService(zrpc.MustNewClient(c.ArticleRpc))
+	articleUserRpc := userservice.NewUserService(zrpc.MustNewClient(c.ArticleRpc))
+	articleAdminRpc := adminservice.NewAdminService(zrpc.MustNewClient(c.ArticleRpc))
+	verifyRpc := verifyservice.NewVerifyService(zrpc.MustNewClient(c.VerifyRpc))
 	return &ServiceContext{
 		Config:             c,
 		CorsMiddleware:     middleware.NewCorsMiddleware().Handle,
 		UserAuthMiddleware: middleware.NewUserAuthMiddleware(c, verifyRpc).Handle,
-		ArticleRpc:         articleRpc,
+		ArticleCommonRpc:   articleCommonRpc,
+		ArticleUserRpc:     articleUserRpc,
+		ArticleAdminRpc:    articleAdminRpc,
 	}
 }

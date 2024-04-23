@@ -3,7 +3,7 @@ package login
 import (
 	"blog/app/user/api/internal/svc"
 	"blog/app/user/api/internal/types"
-	"blog/app/user/rpc/rpcClient"
+	"blog/app/user/rpc/client/userservice"
 	"blog/common/helper"
 	"blog/common/response/errx"
 	"context"
@@ -26,7 +26,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.LoginRes, err error) {
-	info, err := l.svcCtx.UserRpc.Register(l.ctx, &rpcClient.RegisterReq{
+	info, err := l.svcCtx.UserRpc.Register(l.ctx, &userservice.RegisterReq{
 		Nickname: req.Nickname,
 		Phone:    req.Phone,
 		Password: req.Password,

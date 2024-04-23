@@ -20,6 +20,7 @@ message Article {
 message User{
   int64 id = 1;
   string nickname = 2;
+  string avatar = 3;
 }
 message Category{
   int64 id = 1;
@@ -27,27 +28,33 @@ message Category{
   string name = 3;
 }
 message Detail {
-  string content = 1;
+  string article_uuid = 1;
+  string content = 2;
 }
 
 message SearchReq{
   int32 page = 1 ;
-  int32 page_size = 2;
-  int32 category_id = 3;
-  int32 state = 4;
-  int64 user_id = 5;
-  int64 admin_id = 6;
-  string keyword = 7;
+  int32 category_id = 2;
+  int64 user_id = 3;
+  string keyword = 4;
 }
+
 message PageData{
   int32 page = 1 ;
   int32 page_size = 2;
   int64 total = 3;
   repeated Article data = 4;
 }
+
 message InfoReq{
   string uuid = 1;
+  int64 user_id = 2;
 }
+
+message CategoryRes{
+  repeated Category list = 1;
+}
+
 message UpdateReq{
   string uuid = 1;
   string title = 2;
@@ -59,6 +66,7 @@ message UpdateReq{
 
 message DeleteReq{
   string uuid = 1;
+  int64 user_id = 2;
 }
 
 message UploadReq{
@@ -69,10 +77,10 @@ message UploadRes{
   string file = 1;
 }
 
-message CategoryRes{
-  repeated Category list = 1;
+message ExamineReq{
+  int32 state = 1;
+  string reason = 2;
 }
-
 message EmptyReq{
 
 }
@@ -80,12 +88,24 @@ message EmptyRes{
 
 }
 
-service Rpc {
+service CommonService {
+  //公共文章
   rpc PageList(SearchReq) returns(PageData);
   rpc CategoryList (EmptyReq)returns(CategoryRes);
   rpc Info (InfoReq)returns(Article);
+}
 
+service UserService{
+  //个人文章
+  rpc PageList(SearchReq) returns(PageData);
+  rpc Info (InfoReq)returns(Article);
   rpc Push(UpdateReq) returns(EmptyRes);
   rpc Upload(UploadReq) returns(UploadRes);
   rpc Delete(DeleteReq) returns(EmptyRes);
+}
+service AdminService{
+  //管理后台
+  rpc PageList(SearchReq) returns(PageData);
+  rpc Delete(DeleteReq) returns(EmptyRes);
+  rpc Examine(DeleteReq) returns(EmptyRes);
 }

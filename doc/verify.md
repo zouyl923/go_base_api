@@ -15,7 +15,8 @@ vim verify.proto
 # -dir 指定生成目录  
 # --style 生成代码风格 goZero 小驼峰写法
 # --home 生成代码采用的模板 
+# -m 采用分组模式
 # 具体参数 @see https://go-zero.dev/docs/tutorials/cli/rpc
-goctl rpc protoc ./verify.proto  --go_out=./pb --go-grpc_out=./pb --zrpc_out=.  --style="goZero" --home="../../../template" 
+goctl rpc protoc ./verify.proto  --go_out=./pb --go-grpc_out=./pb --zrpc_out=.  --style="goZero" --home="../../../template" -m 
 
 ```

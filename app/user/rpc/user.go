@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"blog/app/user/rpc/internal/config"
-	"blog/app/user/rpc/internal/server"
+	userserviceServer "blog/app/user/rpc/internal/server/userservice"
 	"blog/app/user/rpc/internal/svc"
 	"blog/app/user/rpc/pb/rpc"
 
@@ -26,7 +26,7 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		rpc.RegisterRpcServer(grpcServer, server.NewRpcServer(ctx))
+		rpc.RegisterUserServiceServer(grpcServer, userserviceServer.NewUserServiceServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)

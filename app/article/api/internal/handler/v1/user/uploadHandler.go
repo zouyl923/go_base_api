@@ -34,7 +34,7 @@ func UploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 		l := user.NewUploadLogic(r.Context(), svcCtx)
-		resp, err := l.Upload(&req)
+		resp, err := l.Upload(r)
 		if err != nil {
 			response.Error(w, err)
 		} else {

@@ -13,7 +13,7 @@ type ArticleCategory struct {
 	IsDel     int32     `gorm:"column:is_del;not null;comment:是否删除：1是 0否" json:"is_del"`
 	CreatedAt time.Time `gorm:"column:created_at" json:"created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at" json:"updated_at"`
-	DeletedAt int32     `gorm:"column:deleted_at;not null;comment:删除时间" json:"deleted_at"` // 删除时间
+	DeletedAt int64     `gorm:"column:deleted_at;not null;comment:删除时间" json:"deleted_at"` // 删除时间
 }
 
 // TableName Admin table name

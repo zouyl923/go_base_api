@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"blog/app/user/api/internal/config"
-	"blog/app/verify/rpc/rpcClient"
+	"blog/app/verify/rpc/client/verifyservice"
 	"blog/common/response"
 	"blog/common/response/errx"
 	"context"
@@ -12,10 +12,10 @@ import (
 
 type UserAuthMiddleware struct {
 	Config    config.Config
-	VerifyRpc rpcClient.Rpc
+	VerifyRpc verifyservice.VerifyService
 }
 
-func NewUserAuthMiddleware(c config.Config, rpc rpcClient.Rpc) *UserAuthMiddleware {
+func NewUserAuthMiddleware(c config.Config, rpc verifyservice.VerifyService) *UserAuthMiddleware {
 	return &UserAuthMiddleware{
 		Config:    c,
 		VerifyRpc: rpc,
@@ -25,7 +25,7 @@ func NewUserAuthMiddleware(c config.Config, rpc rpcClient.Rpc) *UserAuthMiddlewa
 func (m *UserAuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		token := r.Header.Get("Token")
-		authRes, err := m.VerifyRpc.Auth(context.Background(), &rpcClient.AuthReq{
+		authRes, err := m.VerifyRpc.Auth(context.Background(), &verifyservice.AuthReq{
 			Server: "user",
 			Token:  token,
 		})

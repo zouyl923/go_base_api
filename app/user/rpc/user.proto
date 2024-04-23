@@ -37,7 +37,7 @@ message User {
   int64  phone  =3;
 }
 
-service Rpc {
+service UserService {
   rpc Register(RegisterReq) returns(RegisterRes);
   rpc Login(LoginReq) returns(LoginRes);
   rpc Info(InfoReq) returns(User);

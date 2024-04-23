@@ -1,6 +1,8 @@
 package user
 
 import (
+	"blog/app/article/rpc/pb/rpc"
+	"blog/common/response/errx"
 	"context"
 
 	"blog/app/article/api/internal/svc"
@@ -24,7 +26,13 @@ func NewDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteLogi
 }
 
 func (l *DeleteLogic) Delete(req *types.DeleteReq) error {
-	// todo: add your logic here and delete this line
-
+	userId := l.ctx.Value("userId").(int64)
+	_, err := l.svcCtx.ArticleUserRpc.Delete(l.ctx, &rpc.DeleteReq{
+		Uuid:   req.Uuid,
+		UserId: userId,
+	})
+	if err != nil {
+		return errx.NewMessageError(err.Error())
+	}
 	return nil
 }

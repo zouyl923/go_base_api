@@ -62,7 +62,7 @@ message  JwtMap{
 }
 
 
-service Rpc {
+service VerifyService {
   rpc GenToken(GenTokenReq) returns(GenTokenRes);
   rpc RemoveToken(RemoveTokenReq) returns(RemoveTokenRes);
   rpc Auth(AuthReq) returns(AuthRes);

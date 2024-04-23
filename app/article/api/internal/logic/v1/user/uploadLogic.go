@@ -1,10 +1,12 @@
 package user
 
 import (
-	"context"
-
 	"blog/app/article/api/internal/svc"
 	"blog/app/article/api/internal/types"
+	"context"
+	"io"
+	"net/http"
+	"os"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -23,8 +25,17 @@ func NewUploadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UploadLogi
 	}
 }
 
-func (l *UploadLogic) Upload(req *types.UploadReq) (resp *types.UploadRes, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *UploadLogic) Upload(r *http.Request) (resp *types.UploadRes, err error) {
+	file, handler, err := r.FormFile("file")
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	//创建上传目录
+	os.Mkdir("./upload", os.ModePerm)
+	//创建上传文件
+	f, err := os.Create("./upload/" + handler.Filename)
+	defer f.Close()
+	io.Copy(f, file)
+	return &types.UploadRes{File: handler.Filename}, nil
 }
