@@ -1,7 +1,7 @@
-package article
+package common
 
 import (
-	"blog/app/article/api/internal/logic/v1/article"
+	"blog/app/article/api/internal/logic/v1/common"
 	"blog/app/article/api/internal/svc"
 	"blog/app/article/api/internal/types"
 	"blog/common/response"
@@ -16,7 +16,7 @@ import (
 
 func InfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.ArticleInfoReq
+		var req types.InfoReq
 		//解析参数
 		httpx.Parse(r, &req)
 		//验证器
@@ -33,7 +33,7 @@ func InfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			response.ParamError(w, first.Translate(trans))
 			return
 		}
-		l := article.NewInfoLogic(r.Context(), svcCtx)
+		l := common.NewInfoLogic(r.Context(), svcCtx)
 		resp, err := l.Info(&req)
 		if err != nil {
 			response.Error(w, err)

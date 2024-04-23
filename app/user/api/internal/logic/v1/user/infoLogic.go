@@ -5,7 +5,6 @@ import (
 	"blog/common/helper"
 	"blog/common/response/errx"
 	"context"
-	"net/http"
 	"strconv"
 
 	"blog/app/user/api/internal/svc"
@@ -28,8 +27,8 @@ func NewInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *InfoLogic {
 	}
 }
 
-func (l *InfoLogic) Info(r *http.Request) (resp *types.User, err error) {
-	userId := r.Header.Get("user_id")
+func (l *InfoLogic) Info() (resp *types.User, err error) {
+	userId := l.ctx.Value("userId").(string)
 	uId, err := strconv.ParseInt(userId, 10, 64)
 	info, err := l.svcCtx.UserRpc.Info(l.ctx, &rpc.InfoReq{
 		UserId: uId,

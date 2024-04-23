@@ -39,7 +39,7 @@ service user-api {
 
 @server (
 	group:      v1/user
-	middleware: CorsMiddleware,AuthMiddleware
+	middleware: CorsMiddleware,UserAuthMiddleware
 )
 service user-api {
 	@doc "我的信息"

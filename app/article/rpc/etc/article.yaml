@@ -1,13 +1,14 @@
-Name: user.rpc
-ListenOn: 0.0.0.0:6081
+Name: article.rpc
+ListenOn: 0.0.0.0:6021
 
 Etcd:
   Hosts:
-    - 127.0.0.1:2379
-  Key: user.rpc
+  - 127.0.0.1:2379
+  Key: article.rpc
+
 
 Log:
-  ServiceName: user-rpc
+  ServiceName: article-rpc
   # console , file ,
   Mode: console
   Level: info
@@ -30,10 +31,3 @@ Redis:
   Type: "node"
   Password: "123456"
   Tls: false
-
-
-VerifyRpc:
-  Etcd:
-    Hosts:
-      - 127.0.0.1:2379
-    Key: verify.rpc

@@ -2,38 +2,76 @@
 package types
 
 type Article struct {
-	Uuid         string        `json:"uuid"`
-	Title        string        `json:"title"`
-	Cover        string        `json:"cover"`
-	CategoryId   int32         `json:"category_id"`
-	CategoryInfo Category      `json:"category_info"`
-	DetailInfo   ArticleDetail `json:"detail_info"`
-}
-
-type ArticleDetail struct {
-	Content string `json:"content"`
-}
-
-type ArticleInfoReq struct {
-	Uuid string `form:"uuid"`
-}
-
-type ArticlePageList struct {
-	Total    int64     `json:"total"`
-	Data     []Article `json:"data"`
-	Page     int       `json:"page"`
-	PageSize int       `json:"page_size"`
-}
-
-type ArticleSearchReq struct {
-	Page       int    `json:"page"`
-	PageSize   int    `json:"page_size"`
-	CategoryId int32  `json:"category_id"`
-	Keyword    string `json:"category_id"`
+	Uuid         string   `json:"uuid"`
+	Title        string   `json:"title"`
+	Cover        string   `json:"cover"`
+	LikeNum      string   `json:"like_num"`
+	CommentNum   string   `json:"comment_num"`
+	ViewNum      string   `json:"view_num"`
+	CategoryId   int32    `json:"category_id"`
+	UserId       int64    `json:"user_id"`
+	CategoryInfo Category `json:"category_info"`
+	DetailInfo   Detail   `json:"detail_info"`
+	UserInfo     User     `json:"user_info"`
+	CreatedAt    string   `json:"created_at"`
 }
 
 type Category struct {
 	Id       int64  `json:"id"`
 	ParentId int32  `json:"parent_id"`
 	Name     string `json:"name"`
+}
+
+type DeleteReq struct {
+	Uuid string `form:"uuid"`
+}
+
+type Detail struct {
+	Content string `json:"content"`
+}
+
+type ExamineReq struct {
+	Uuid   string `form:"uuid"`
+	State  int32  `form:"state"`
+	Reason string `form:"reason"`
+}
+
+type InfoReq struct {
+	Uuid string `form:"uuid"`
+}
+
+type PageList struct {
+	Total    int64     `json:"total"`
+	Data     []Article `json:"data"`
+	Page     int       `json:"page"`
+	PageSize int       `json:"page_size"`
+}
+
+type SearchReq struct {
+	Page       int32  `json:"page"`
+	PageSize   int32  `json:"page_size"`
+	CategoryId int32  `json:"category_id"`
+	Keyword    string `json:"keyword"`
+	State      int32  `json:"state"`
+}
+
+type UpdateReq struct {
+	Uuid       string `json:"uuid"`
+	Title      string `json:"title"`
+	Cover      string `json:"cover"`
+	CategoryId int32  `json:"category_id"`
+	Content    string `json:"content"`
+}
+
+type UploadReq struct {
+	File string `form:"file"`
+}
+
+type UploadRes struct {
+	File string `json:"file"`
+}
+
+type User struct {
+	Id       int64  `json:"id"`
+	Nickname string `json:"nickname"`
 }

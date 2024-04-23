@@ -3,52 +3,27 @@ package svc
 import (
 	"blog/app/article/api/internal/config"
 	"blog/app/article/api/internal/middleware"
-	"fmt"
-	"github.com/zeromicro/go-zero/core/stores/redis"
+	articleRpcClient "blog/app/article/rpc/rpcClient"
+	verifyRpcClient "blog/app/verify/rpc/rpcClient"
 	"github.com/zeromicro/go-zero/rest"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
+	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
-	Config         config.Config
-	CorsMiddleware rest.Middleware
-	DB             *gorm.DB
-	Cache          *redis.Redis
+	Config              config.Config
+	CorsMiddleware      rest.Middleware
+	UserAuthMiddleware  rest.Middleware
+	AdminAuthMiddleware rest.Middleware
+	ArticleRpc          articleRpcClient.Rpc
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
+	articleRpc := articleRpcClient.NewRpc(zrpc.MustNewClient(c.ArticleRpc))
+	verifyRpc := verifyRpcClient.NewRpc(zrpc.MustNewClient(c.VerifyRpc))
 	return &ServiceContext{
-		Config:         c,
-		CorsMiddleware: middleware.NewCorsMiddleware().Handle,
-		DB:             GetOrm(c),
-		Cache:          GetRedis(c),
+		Config:             c,
+		CorsMiddleware:     middleware.NewCorsMiddleware().Handle,
+		UserAuthMiddleware: middleware.NewUserAuthMiddleware(c, verifyRpc).Handle,
+		ArticleRpc:         articleRpc,
 	}
-}
-
-func GetRedis(c config.Config) *redis.Redis {
-	rds := redis.MustNewRedis(c.Redis)
-	return rds
-}
-
-func GetOrm(c config.Config) *gorm.DB {
-	db, err := gorm.Open(mysql.Open(GetDsn(c)))
-	if err != nil {
-		//中断程序并报错
-		panic(err)
-	}
-	db.Logger.LogMode(4)
-	return db
-}
-
-func GetDsn(c config.Config) string {
-	conf := c.MySql
-	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=true&loc=Local",
-		conf.User,
-		conf.Password,
-		conf.Host,
-		conf.Port,
-		conf.Database,
-		conf.Charset,
-	)
 }

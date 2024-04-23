@@ -10,19 +10,19 @@ import (
 	"net/http"
 )
 
-type AuthMiddleware struct {
+type UserAuthMiddleware struct {
 	Config    config.Config
 	VerifyRpc rpcClient.Rpc
 }
 
-func NewAuthMiddleware(c config.Config, rpc rpcClient.Rpc) *AuthMiddleware {
-	return &AuthMiddleware{
+func NewUserAuthMiddleware(c config.Config, rpc rpcClient.Rpc) *UserAuthMiddleware {
+	return &UserAuthMiddleware{
 		Config:    c,
 		VerifyRpc: rpc,
 	}
 }
 
-func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
+func (m *UserAuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		token := r.Header.Get("Token")
 		authRes, err := m.VerifyRpc.Auth(context.Background(), &rpcClient.AuthReq{
@@ -39,7 +39,9 @@ func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 		//追加参数
-		r.Header.Add("user_id", authRes.Key)
-		next(w, r)
+		ctx := r.Context()
+		ctx = context.WithValue(ctx, "userId", authRes.Key)
+		newR := r.WithContext(ctx)
+		next(w, newR)
 	}
 }

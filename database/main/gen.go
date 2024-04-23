@@ -27,10 +27,15 @@ func Migrate() {
 		&model.AdminRole{},
 		&model.AdminRolePermission{},
 		&model.Config{},
+
+		&model.User{},
+
 		&model.Article{},
 		&model.ArticleDetail{},
 		&model.ArticleCategory{},
-		&model.User{},
+
+		&model.Like{},
+		&model.LikeCount{},
 	)
 }
 

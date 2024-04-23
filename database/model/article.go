@@ -13,6 +13,7 @@ type Article struct {
 	Title      string    `gorm:"column:title;type:varchar(256);not null;comment:标题" json:"title"` // 标题
 	Cover      string    `gorm:"column:cover;type:varchar(1024);comment:封面" json:"cover"`         // 封面
 	State      int32     `gorm:"column:state;not null;comment:审核状态" json:"state"`                 // 审核状态
+	CommentNum int32     `gorm:"column:comment_num;not null;comment:浏览数" json:"comment_num"`      //评论数
 	ViewNum    int32     `gorm:"column:view_num;not null;comment:浏览数" json:"view_num"`            // 浏览数
 	LikeNum    int32     `gorm:"column:like_num;not null;comment:点赞数" json:"like_num"`            // 点赞数
 	UserId     int32     `gorm:"column:user_id;not null;comment:用户ID" json:"user_id"`             //用户uuid

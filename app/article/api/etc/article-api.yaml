@@ -4,7 +4,7 @@ Port: 6020
 Mod: dev
 
 Log:
-  ServiceName: admin-api
+  ServiceName: article-api
   # console , file ,
   Mode: console
   Level: info
@@ -12,17 +12,14 @@ Log:
   # 输出格式
   Encoding: plain
 
-MySql:
-  Host: "127.0.0.1"
-  Port: 3306
-  User: "root"
-  Password: "123456"
-  Database: "base_api"
-  Prefix: ""
-  Charset: "utf8mb4"
+ArticleRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: article.rpc
 
-Redis:
-  Host: "127.0.0.1:6379"
-  Type: "node"
-  Password: "123456"
-  Tls: false
+VerifyRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: verify.rpc

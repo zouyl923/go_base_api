@@ -10,20 +10,20 @@ import (
 )
 
 type ServiceContext struct {
-	Config         config.Config
-	CorsMiddleware rest.Middleware
-	AuthMiddleware rest.Middleware
-	UserRpc        userRpcClient.Rpc
-	VerifyRpc      verifyRpcClient.Rpc
+	Config             config.Config
+	CorsMiddleware     rest.Middleware
+	UserAuthMiddleware rest.Middleware
+	UserRpc            userRpcClient.Rpc
+	VerifyRpc          verifyRpcClient.Rpc
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	userRpc := userRpcClient.NewRpc(zrpc.MustNewClient(c.UserRpc))
 	verifyRpc := verifyRpcClient.NewRpc(zrpc.MustNewClient(c.VerifyRpc))
 	return &ServiceContext{
-		Config:         c,
-		CorsMiddleware: middleware.NewCorsMiddleware().Handle,
-		AuthMiddleware: middleware.NewAuthMiddleware(c, verifyRpc).Handle,
-		UserRpc:        userRpc,
+		Config:             c,
+		CorsMiddleware:     middleware.NewCorsMiddleware().Handle,
+		UserAuthMiddleware: middleware.NewUserAuthMiddleware(c, verifyRpc).Handle,
+		UserRpc:            userRpc,
 	}
 }

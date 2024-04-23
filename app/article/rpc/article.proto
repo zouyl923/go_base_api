@@ -1,16 +1,91 @@
 syntax = "proto3";
 
-package rpc;
-option go_package="./rpc";
+package article;
+option go_package = "./rpc";
 
-message Request {
-  string ping = 1;
+message Article {
+  string uuid = 1;
+  string title = 2;
+  string cover = 3;
+  int32 like_num = 4;
+  int32 comment_num = 5;
+  int32 view_num = 6;
+  int32 category_id = 7;
+  int64  user_id = 8;
+  User user_info = 9;
+  Category category_info = 10;
+  Detail detail_info = 11;
+  string created_at = 12;
+}
+message User{
+  int64 id = 1;
+  string nickname = 2;
+}
+message Category{
+  int64 id = 1;
+  int32 parent_id = 2;
+  string name = 3;
+}
+message Detail {
+  string content = 1;
 }
 
-message Response {
-  string pong = 1;
+message SearchReq{
+  int32 page = 1 ;
+  int32 page_size = 2;
+  int32 category_id = 3;
+  int32 state = 4;
+  int64 user_id = 5;
+  int64 admin_id = 6;
+  string keyword = 7;
+}
+message PageData{
+  int32 page = 1 ;
+  int32 page_size = 2;
+  int64 total = 3;
+  repeated Article data = 4;
+}
+message InfoReq{
+  string uuid = 1;
+}
+message UpdateReq{
+  string uuid = 1;
+  string title = 2;
+  string cover = 3;
+  int32 category_id = 4;
+  string content = 5;
+  int64 user_id = 6;
+}
+
+message DeleteReq{
+  string uuid = 1;
+}
+
+message UploadReq{
+  string file = 1;
+  bytes content = 2;
+}
+message UploadRes{
+  string file = 1;
+}
+
+message CategoryRes{
+  repeated Category list = 1;
+}
+
+message EmptyReq{
+
+}
+message EmptyRes{
+
 }
 
 service Rpc {
-  rpc Ping(Request) returns(Response);
+  rpc PageList(SearchReq) returns(PageData);
+  rpc CategoryList (EmptyReq)returns(CategoryRes);
+  rpc Info (InfoReq)returns(Article);
+
+  rpc Push(UpdateReq) returns(EmptyRes);
+  rpc Upload(UploadReq) returns(UploadRes);
+  rpc Delete(DeleteReq) returns(EmptyRes);
 }

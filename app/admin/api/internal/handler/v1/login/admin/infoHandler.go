@@ -10,7 +10,7 @@ import (
 func InfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		l := admin.NewInfoLogic(r.Context(), svcCtx)
-		resp, err := l.Info(r)
+		resp, err := l.Info()
 		if err != nil {
 			response.Error(w, err)
 		} else {

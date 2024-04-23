@@ -1,8 +1,8 @@
 package category
 
 import (
+	"blog/app/article/rpc/pb/rpc"
 	"blog/common/helper"
-	"blog/database/model"
 	"context"
 
 	"blog/app/article/api/internal/svc"
@@ -26,12 +26,8 @@ func NewAllListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AllListLo
 }
 
 func (l *AllListLogic) AllList() (resp []types.Category, err error) {
-	var list []model.ArticleCategory
-	l.svcCtx.DB.WithContext(l.ctx).
-		Where("is_del", 0).
-		Where("is_hid", 0).
-		Find(&list)
+	list, err := l.svcCtx.ArticleRpc.CategoryList(l.ctx, &rpc.EmptyReq{})
 	var cList []types.Category
-	helper.ExchangeStruct(list, &cList)
+	helper.ExchangeStruct(list.List, &cList)
 	return cList, nil
 }

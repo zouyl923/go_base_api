@@ -7,9 +7,6 @@ import (
 	"blog/common/response/errx"
 	"blog/database/model"
 	"context"
-	"fmt"
-	"net/http"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -27,9 +24,8 @@ func NewInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *InfoLogic {
 	}
 }
 
-func (l *InfoLogic) Info(r *http.Request) (resp *types.AdminInfo, err error) {
-	adminId := r.Header.Get("admin_id")
-	fmt.Println(adminId)
+func (l *InfoLogic) Info() (resp *types.AdminInfo, err error) {
+	adminId := l.ctx.Value("adminId").(int)
 	admin := &model.Admin{}
 	err = l.svcCtx.DB.WithContext(l.ctx).
 		Preload("RoleInfo").

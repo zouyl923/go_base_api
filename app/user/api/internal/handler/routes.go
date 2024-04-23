@@ -32,14 +32,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.CorsMiddleware, serverCtx.AuthMiddleware},
+			[]rest.Middleware{serverCtx.CorsMiddleware, serverCtx.UserAuthMiddleware},
 			[]rest.Route{
 				{
+					// 我的信息
 					Method:  http.MethodGet,
 					Path:    "/v1/info",
 					Handler: v1user.InfoHandler(serverCtx),
 				},
 				{
+					// 个人主页
 					Method:  http.MethodGet,
 					Path:    "/v1/main",
 					Handler: v1user.MainHandler(serverCtx),
