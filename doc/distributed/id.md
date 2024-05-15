@@ -56,7 +56,6 @@ func GenUuid(in *rpc.GenUuidReq) (*rpc.GenUuidRes, error) {
         }
         //前缀
 		prefixInt, _ := strconv.Atoi(date)
-        
 		//遍历生成uuid
         for i := 0; i < step; i++ {
 			//防止别人猜测uuid给上随机值
