@@ -31,7 +31,7 @@ func (l *AuthLogic) Auth(in *rpc.AuthReq) (*rpc.AuthRes, error) {
 	if err != nil {
 		return nil, err
 	}
-	key := in.Server + ":" + claims.Key
+	key := in.Server + in.Platform + ":" + ":" + claims.Key
 	//验证token是否有效
 	tokenKey := "token:" + key
 	token, err := l.svcCtx.Cache.Get(tokenKey)

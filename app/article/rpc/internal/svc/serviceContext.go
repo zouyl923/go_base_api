@@ -2,9 +2,12 @@ package svc
 
 import (
 	"blog/app/article/rpc/internal/config"
+	"blog/app/uuid/client/uuidservice"
 	"blog/common/helper"
 	"fmt"
+	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/stores/redis"
+	"github.com/zeromicro/go-zero/zrpc"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -13,13 +16,20 @@ type ServiceContext struct {
 	Config config.Config
 	DB     *gorm.DB
 	Cache  *redis.Redis
+
+	UuidRpc               uuidservice.UuidService
+	ViewNumKqPusherClient *kq.Pusher
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
+	uuidRpc := uuidservice.NewUuidService(zrpc.MustNewClient(c.UUidRpc))
 	return &ServiceContext{
-		Config: c,
-		DB:     GetOrm(c),
-		Cache:  GetRedis(c),
+		Config:  c,
+		DB:      GetOrm(c),
+		Cache:   GetRedis(c),
+		UuidRpc: uuidRpc,
+		//使用kafka
+		ViewNumKqPusherClient: kq.NewPusher(c.ViewNumKqPusher.Brokers, c.ViewNumKqPusher.Topic, kq.WithFlushInterval(60)),
 	}
 }
 

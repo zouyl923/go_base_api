@@ -6,8 +6,12 @@ option go_package = "./rpc";
 message GenTokenReq{
   //服务模块
   string server = 1;
+  //平台 all/pc/ios/android/mp-mini
+  string platform = 2;
   //唯一标识
-  string key = 2;
+  string key = 3;
+  //token有效期
+  int64 expire = 4;
 }
 
 message GenTokenRes{
@@ -15,39 +19,44 @@ message GenTokenRes{
   string server = 1;
   //唯一标识
   string key = 2;
+  //平台 all/pc/ios/android/mp-mini
+  string platform = 3;
   //token
-  string token = 3;
+  string token = 4;
   //refresh_token
-  string refresh_token = 4;
+  string refresh_token = 5;
 }
 message RemoveTokenReq {
   //服务模块
   string server = 1;
+  //平台 all/pc/ios/android/mp-mini
+  string platform = 2;
   //唯一标识
-  string key = 2;
-}
-message RemoveTokenRes{
-
+  string key = 3;
 }
 
 message AuthReq {
   //服务模块
   string server = 1;
+  //平台 all/pc/ios/android/mp-mini
+  string platform = 2;
   //token
-  string token = 2;
+  string token = 3;
 }
 
 message AuthRes {
   //服务模块
   string server = 1;
+  //平台 all/pc/ios/android/mp-mini
+  string platform = 2;
   //唯一标识
-  string key = 2;
+  string key = 3;
   //token
-  string token = 3;
+  string token = 4;
   //refresh_token
-  string refresh_token = 4;
+  string refresh_token = 5;
   //token
-  JwtMap jwt_map = 5;
+  JwtMap jwt_map = 6;
 }
 
 message  JwtMap{
@@ -61,9 +70,12 @@ message  JwtMap{
   string nonce = 4;
 }
 
+message EmptyRes{
+
+}
 
 service VerifyService {
   rpc GenToken(GenTokenReq) returns(GenTokenRes);
-  rpc RemoveToken(RemoveTokenReq) returns(RemoveTokenRes);
+  rpc RemoveToken(RemoveTokenReq) returns(EmptyRes);
   rpc Auth(AuthReq) returns(AuthRes);
 }

@@ -3,8 +3,8 @@ package types
 
 type Article struct {
 	Uuid         string   `json:"uuid"`
-	Title        string   `json:"title"`
-	Cover        string   `json:"cover"`
+	Title        string   `json:"title" `
+	Cover        string   `json:"cover" `
 	LikeNum      string   `json:"like_num"`
 	CommentNum   string   `json:"comment_num"`
 	ViewNum      string   `json:"view_num"`
@@ -57,10 +57,10 @@ type SearchReq struct {
 
 type UpdateReq struct {
 	Uuid       string `json:"uuid"`
-	Title      string `json:"title"`
-	Cover      string `json:"cover"`
-	CategoryId int32  `json:"category_id"`
-	Content    string `json:"content"`
+	Title      string `json:"title" validate:"required" label:"标题"`
+	Cover      string `json:"cover" validate:"required" label:"封面"`
+	CategoryId int32  `json:"category_id" validate:"required" label:"分类"`
+	Content    string `json:"content" validate:"required" label:"内容"`
 }
 
 type UploadReq struct {

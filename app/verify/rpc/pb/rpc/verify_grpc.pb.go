@@ -29,7 +29,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type VerifyServiceClient interface {
 	GenToken(ctx context.Context, in *GenTokenReq, opts ...grpc.CallOption) (*GenTokenRes, error)
-	RemoveToken(ctx context.Context, in *RemoveTokenReq, opts ...grpc.CallOption) (*RemoveTokenRes, error)
+	RemoveToken(ctx context.Context, in *RemoveTokenReq, opts ...grpc.CallOption) (*EmptyRes, error)
 	Auth(ctx context.Context, in *AuthReq, opts ...grpc.CallOption) (*AuthRes, error)
 }
 
@@ -50,8 +50,8 @@ func (c *verifyServiceClient) GenToken(ctx context.Context, in *GenTokenReq, opt
 	return out, nil
 }
 
-func (c *verifyServiceClient) RemoveToken(ctx context.Context, in *RemoveTokenReq, opts ...grpc.CallOption) (*RemoveTokenRes, error) {
-	out := new(RemoveTokenRes)
+func (c *verifyServiceClient) RemoveToken(ctx context.Context, in *RemoveTokenReq, opts ...grpc.CallOption) (*EmptyRes, error) {
+	out := new(EmptyRes)
 	err := c.cc.Invoke(ctx, VerifyService_RemoveToken_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -73,7 +73,7 @@ func (c *verifyServiceClient) Auth(ctx context.Context, in *AuthReq, opts ...grp
 // for forward compatibility
 type VerifyServiceServer interface {
 	GenToken(context.Context, *GenTokenReq) (*GenTokenRes, error)
-	RemoveToken(context.Context, *RemoveTokenReq) (*RemoveTokenRes, error)
+	RemoveToken(context.Context, *RemoveTokenReq) (*EmptyRes, error)
 	Auth(context.Context, *AuthReq) (*AuthRes, error)
 	mustEmbedUnimplementedVerifyServiceServer()
 }
@@ -85,7 +85,7 @@ type UnimplementedVerifyServiceServer struct {
 func (UnimplementedVerifyServiceServer) GenToken(context.Context, *GenTokenReq) (*GenTokenRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GenToken not implemented")
 }
-func (UnimplementedVerifyServiceServer) RemoveToken(context.Context, *RemoveTokenReq) (*RemoveTokenRes, error) {
+func (UnimplementedVerifyServiceServer) RemoveToken(context.Context, *RemoveTokenReq) (*EmptyRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveToken not implemented")
 }
 func (UnimplementedVerifyServiceServer) Auth(context.Context, *AuthReq) (*AuthRes, error) {

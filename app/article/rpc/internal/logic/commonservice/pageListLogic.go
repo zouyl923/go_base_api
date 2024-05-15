@@ -48,7 +48,6 @@ func (l *PageListLogic) PageList(in *rpc.SearchReq) (*rpc.PageData, error) {
 		Where("is_hid = ?", 0).
 		Where("state = ?", 1).
 		Preload("CategoryInfo").
-		Preload("DetailInfo").
 		Preload("UserInfo").
 		Offset(offset).Limit(pageSize).
 		Find(&list).Count(&total)

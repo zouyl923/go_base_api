@@ -23,3 +23,12 @@ VerifyRpc:
     Hosts:
       - 127.0.0.1:2379
     Key: verify.rpc
+
+TencentCloud:
+  SecretId:
+  SecretKey:
+  Cos:
+    AppId: 1256374547
+    Bucket: test-1256374547
+    REGION: ap-shanghai
+    Domain: http://cos.cyberlink.team

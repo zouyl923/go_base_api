@@ -27,7 +27,7 @@ func (s *VerifyServiceServer) GenToken(ctx context.Context, in *rpc.GenTokenReq)
 	return l.GenToken(in)
 }
 
-func (s *VerifyServiceServer) RemoveToken(ctx context.Context, in *rpc.RemoveTokenReq) (*rpc.RemoveTokenRes, error) {
+func (s *VerifyServiceServer) RemoveToken(ctx context.Context, in *rpc.RemoveTokenReq) (*rpc.EmptyRes, error) {
 	l := verifyservicelogic.NewRemoveTokenLogic(ctx, s.svcCtx)
 	return l.RemoveToken(in)
 }

@@ -9,7 +9,6 @@ type ArticleDetail struct {
 	Reason      string `gorm:"column:reason;type:varchar(256);comment:审核不通过原因" json:"reason"`     // 审核不通过原因
 }
 
-// TableName Admin table name
 func (*ArticleDetail) TableName() string {
 	return TableNameArticleDetail
 }

@@ -16,7 +16,6 @@ type ArticleCategory struct {
 	DeletedAt int64     `gorm:"column:deleted_at;not null;comment:删除时间" json:"deleted_at"` // 删除时间
 }
 
-// TableName Admin table name
 func (*ArticleCategory) TableName() string {
 	return TableNameArticleCategory
 }

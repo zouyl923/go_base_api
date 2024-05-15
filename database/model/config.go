@@ -17,7 +17,6 @@ type Config struct {
 	UpdatedAt time.Time `gorm:"column:updated_at" json:"updated_at"`
 }
 
-// TableName Config's table name
 func (*Config) TableName() string {
 	return TableNameConfig
 }

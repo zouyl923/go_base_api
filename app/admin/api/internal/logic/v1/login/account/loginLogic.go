@@ -47,8 +47,10 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginRes, err error
 
 	adminId := strconv.FormatInt(adminInfo.ID, 10)
 	tokenRes, err := l.svcCtx.VerifyRpc.GenToken(l.ctx, &rpc.GenTokenReq{
-		Server: "admin",
-		Key:    adminId,
+		Server:   "admin",
+		Platform: "all",
+		Key:      adminId,
+		Expire:   2 * 60 * 60,
 	})
 	if err != nil {
 		return nil, err

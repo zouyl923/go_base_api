@@ -26,8 +26,9 @@ func NewLoginOutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginOut
 func (l *LoginOutLogic) LoginOut(r *http.Request) error {
 	adminId := r.Header.Get("admin_id")
 	_, err := l.svcCtx.VerifyRpc.RemoveToken(l.ctx, &rpc.RemoveTokenReq{
-		Server: "admin",
-		Key:    adminId,
+		Server:   "admin",
+		Platform: "all",
+		Key:      adminId,
 	})
 	return err
 }

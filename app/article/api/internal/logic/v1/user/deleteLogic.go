@@ -2,8 +2,8 @@ package user
 
 import (
 	"blog/app/article/rpc/pb/rpc"
-	"blog/common/response/errx"
 	"context"
+	"strconv"
 
 	"blog/app/article/api/internal/svc"
 	"blog/app/article/api/internal/types"
@@ -26,13 +26,11 @@ func NewDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteLogi
 }
 
 func (l *DeleteLogic) Delete(req *types.DeleteReq) error {
-	userId := l.ctx.Value("userId").(int64)
-	_, err := l.svcCtx.ArticleUserRpc.Delete(l.ctx, &rpc.DeleteReq{
+	uId := l.ctx.Value("userId").(string)
+	userId, err := strconv.ParseInt(uId, 10, 64)
+	_, err = l.svcCtx.ArticleUserRpc.Delete(l.ctx, &rpc.DeleteReq{
 		Uuid:   req.Uuid,
 		UserId: userId,
 	})
-	if err != nil {
-		return errx.NewMessageError(err.Error())
-	}
-	return nil
+	return err
 }

@@ -26,8 +26,9 @@ func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		token := r.Header.Get("Token")
 		authRes, err := m.VerifyRpc.Auth(context.Background(), &verifyservice.AuthReq{
-			Server: "admin",
-			Token:  token,
+			Server:   "admin",
+			Platform: "all",
+			Token:    token,
 		})
 		if err != nil {
 			resp := response.Response{

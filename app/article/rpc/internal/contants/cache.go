@@ -6,6 +6,7 @@ var (
 )
 
 var (
-	ArticleListKey string = "article_list"
-	ArticleInfoKey string = "article_info:"
+	ArticleListKey    string = "article_list"
+	ArticleInfoKey    string = "article_info:"
+	ArticleViewNUmKey string = "article_info_view_num:"
 )

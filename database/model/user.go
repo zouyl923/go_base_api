@@ -18,7 +18,7 @@ type User struct {
 	UpdatedAt time.Time `gorm:"column:updated_at" json:"updated_at"`
 }
 
-// TableName Admin table name
+// TableName  table name
 func (*User) TableName() string {
 	return TableNameUser
 }

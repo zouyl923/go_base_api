@@ -1,7 +1,9 @@
 package user
 
 import (
+	"blog/app/article/rpc/client/userservice"
 	"context"
+	"strconv"
 
 	"blog/app/article/api/internal/svc"
 	"blog/app/article/api/internal/types"
@@ -24,7 +26,15 @@ func NewPushLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PushLogic {
 }
 
 func (l *PushLogic) Push(req *types.UpdateReq) error {
-	// todo: add your logic here and delete this line
-
-	return nil
+	uId := l.ctx.Value("userId").(string)
+	userId, err := strconv.ParseInt(uId, 10, 64)
+	_, err = l.svcCtx.ArticleUserRpc.Push(l.ctx, &userservice.UpdateReq{
+		Uuid:       req.Uuid,
+		Title:      req.Title,
+		CategoryId: req.CategoryId,
+		Cover:      req.Cover,
+		Content:    req.Content,
+		UserId:     userId,
+	})
+	return err
 }

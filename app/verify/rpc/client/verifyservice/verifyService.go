@@ -15,15 +15,15 @@ import (
 type (
 	AuthReq        = rpc.AuthReq
 	AuthRes        = rpc.AuthRes
+	EmptyRes       = rpc.EmptyRes
 	GenTokenReq    = rpc.GenTokenReq
 	GenTokenRes    = rpc.GenTokenRes
 	JwtMap         = rpc.JwtMap
 	RemoveTokenReq = rpc.RemoveTokenReq
-	RemoveTokenRes = rpc.RemoveTokenRes
 
 	VerifyService interface {
 		GenToken(ctx context.Context, in *GenTokenReq, opts ...grpc.CallOption) (*GenTokenRes, error)
-		RemoveToken(ctx context.Context, in *RemoveTokenReq, opts ...grpc.CallOption) (*RemoveTokenRes, error)
+		RemoveToken(ctx context.Context, in *RemoveTokenReq, opts ...grpc.CallOption) (*EmptyRes, error)
 		Auth(ctx context.Context, in *AuthReq, opts ...grpc.CallOption) (*AuthRes, error)
 	}
 
@@ -43,7 +43,7 @@ func (m *defaultVerifyService) GenToken(ctx context.Context, in *GenTokenReq, op
 	return client.GenToken(ctx, in, opts...)
 }
 
-func (m *defaultVerifyService) RemoveToken(ctx context.Context, in *RemoveTokenReq, opts ...grpc.CallOption) (*RemoveTokenRes, error) {
+func (m *defaultVerifyService) RemoveToken(ctx context.Context, in *RemoveTokenReq, opts ...grpc.CallOption) (*EmptyRes, error) {
 	client := rpc.NewVerifyServiceClient(m.cli.Conn())
 	return client.RemoveToken(ctx, in, opts...)
 }

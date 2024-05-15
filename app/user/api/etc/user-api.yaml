@@ -1,6 +1,6 @@
 Name: user-api
 Host: 0.0.0.0
-Port: 6080
+Port: 6070
 Mode: dev
 
 Log:

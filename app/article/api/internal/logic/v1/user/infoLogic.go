@@ -5,6 +5,7 @@ import (
 	"blog/common/helper"
 	"blog/common/response/errx"
 	"context"
+	"strconv"
 
 	"blog/app/article/api/internal/svc"
 	"blog/app/article/api/internal/types"
@@ -27,7 +28,8 @@ func NewInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *InfoLogic {
 }
 
 func (l *InfoLogic) Info(req *types.InfoReq) (resp *types.Article, err error) {
-	userId := l.ctx.Value("userId").(int64)
+	uId := l.ctx.Value("userId").(string)
+	userId, err := strconv.ParseInt(uId, 10, 64)
 	info, err := l.svcCtx.ArticleUserRpc.Info(l.ctx, &rpc.InfoReq{
 		Uuid:   req.Uuid,
 		UserId: userId,

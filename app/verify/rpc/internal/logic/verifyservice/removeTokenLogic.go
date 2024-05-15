@@ -23,12 +23,12 @@ func NewRemoveTokenLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Remov
 	}
 }
 
-func (l *RemoveTokenLogic) RemoveToken(in *rpc.RemoveTokenReq) (*rpc.RemoveTokenRes, error) {
-	key := in.Server + ":" + in.Key
+func (l *RemoveTokenLogic) RemoveToken(in *rpc.RemoveTokenReq) (*rpc.EmptyRes, error) {
+	key := in.Server + ":" + in.Platform + ":" + in.Key
 	tokenKey := "token:" + key
 	refreshTokenKey := "refreshToken:" + key
 	//删除缓存
 	l.svcCtx.Cache.Del(tokenKey)
 	l.svcCtx.Cache.Del(refreshTokenKey)
-	return &rpc.RemoveTokenRes{}, nil
+	return &rpc.EmptyRes{}, nil
 }

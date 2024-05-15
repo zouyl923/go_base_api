@@ -36,6 +36,9 @@ func Migrate() {
 
 		&model.Like{},
 		&model.LikeCount{},
+
+		&model.UuidStep{},
+		&model.Uuid{},
 	)
 }
 

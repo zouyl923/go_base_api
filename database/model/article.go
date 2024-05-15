@@ -28,7 +28,6 @@ type Article struct {
 	UserInfo     User            `gorm:"foreignKey:id;references:user_id" json:"user_info"`          // 用户详情
 }
 
-// TableName Admin table name
 func (*Article) TableName() string {
 	return TableNameArticle
 }

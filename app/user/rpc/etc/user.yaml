@@ -1,5 +1,5 @@
 Name: user.rpc
-ListenOn: 0.0.0.0:6081
+ListenOn: 0.0.0.0:6071
 
 Etcd:
   Hosts:

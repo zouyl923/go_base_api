@@ -1,6 +1,7 @@
 package userservicelogic
 
 import (
+	"blog/app/article/rpc/internal/contants"
 	"blog/database/model"
 	"context"
 	"time"
@@ -38,5 +39,7 @@ func (l *DeleteLogic) Delete(in *rpc.DeleteReq) (*rpc.EmptyRes, error) {
 	if err != nil {
 		return nil, err
 	}
+	//清除缓存
+	l.svcCtx.Cache.Del(contants.ArticleInfoKey + in.Uuid)
 	return &rpc.EmptyRes{}, nil
 }

@@ -13,4 +13,9 @@ type Config struct {
 		Prefix   string
 		Charset  string
 	}
+	ViewNumKqPusher struct {
+		Brokers []string
+		Topic   string
+	}
+	UUidRpc zrpc.RpcClientConf
 }
