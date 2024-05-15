@@ -54,14 +54,14 @@ bitnami/etcd:latest
 ```
 - 更改rpc的配置文件
   - 编辑 rpc/etc/user.yaml
-    - ![](./images/1.png)
+    - ![](../images/1.png)
 - 更改api的配置文件
   - 编辑 api/internal/config/config.go
-    - ![](./images/2.png)
+    - ![](../images/2.png)
   - 编辑 api/etc/user-api.yaml
-      - ![](./images/3.png)
+      - ![](../images/3.png)
     - 编辑 api/internal/svc/serviceContext.go
-      - ![](./images/4.png)
+      - ![](../images/4.png)
 - 使用rpc
-  - ![](./images/5.png)
+  - ![](../images/5.png)
 

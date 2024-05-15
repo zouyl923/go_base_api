@@ -8,13 +8,19 @@
 - go-zero 微服务框架
 - kafka 消息中间件
 
-## 项目目录说明
+## 目录说明
 - [目录结构](./doc/menu.md)
 
-## 功能模块说明
-- [管理后台模块](./doc/admin.md)
-    - [文章模块](./doc/article.md)
-    - [认证模块](./doc/verify.md)
+## 功能模块
+- [管理后台模块](doc/module/admin.md)
+- [文章模块](doc/module/article.md)
+- [评论模块](doc/module/comment.md)
+- [点赞模块](doc/module/like.md)
+- [消息模块](doc/module/message.md)
+- [用户模块](doc/module/user.md)
+- [分布式ID模块](doc/module/uuid.md)
+- [认证模块](doc/module/verify.md)
+
 
 ## 分布式系统
 - 全局唯一ID
